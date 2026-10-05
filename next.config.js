@@ -1,16 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
+  trailingSlash: true,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
+    unoptimized: true,
   },
-  experimental: {
-    serverActions: {}, // Changed `true` to an empty object as expected
-  },
+  poweredByHeader: false,
 };
 
 module.exports = nextConfig;
