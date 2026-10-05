@@ -17,14 +17,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Chethan Reddy — AI Forward Deployed Engineer",
   description:
-    "I turn complex enterprise requirements into working AI products. AI Forward Deployed Engineer at Staple AI, working across 20+ enterprise customers.",
+    "Chethan Reddy, AI Forward Deployed Engineer at Staple AI. AI applications, backend systems, product engineering and delivery across 20+ enterprise customers.",
   alternates: { canonical: siteUrl },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    title: "Chethan Reddy — AI, built for the real world.",
-    description: "Enterprise AI. Product engineering. End-to-end ownership.",
+    title: "Chethan Reddy — AI Forward Deployed Engineer",
+    description: "AI applications, backend systems and product delivery.",
     siteName: "Chethan Reddy",
     images: [
       {
