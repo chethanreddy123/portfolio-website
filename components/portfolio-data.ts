@@ -803,6 +803,7 @@ export const awards: Award[] = [
     name: "Bitget U-30 Hackathon",
     distinction: "Most Viable Project",
     work: "Recognized in the Most Viable Project category.",
+    year: "2023",
   },
   {
     name: "Honeywell WeHack 3.0",
@@ -814,6 +815,7 @@ export const awards: Award[] = [
     name: "Axis Bankathon",
     distinction: "1st runner-up",
     work: "An LLM-powered KRA query bot for employees.",
+    year: "2023",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:7109539095059595264/",
   },
   {
@@ -826,24 +828,26 @@ export const awards: Award[] = [
   {
     name: "Canara Bank Dacoethon",
     distinction: "Top 5",
-    work: "Canara Bank Dacoethon 2024.",
+    work: "Placed in the top five among more than 3,000 teams.",
     year: "2024",
   },
   {
     name: "GLC–HP Hackathon",
-    distinction: "Finalist",
-    work: "GLC–HP Hackathon 2024.",
+    distinction: "Grand finalist · Top 4",
+    work: "Placed in the top four among more than 3,000 teams.",
     year: "2024",
   },
   {
     name: "Sirion Labs HackFest 1.0",
-    distinction: "Grand finalist",
-    work: "An optimization algorithm for supplier ratings.",
+    distinction: "Grand finalist · Top 7",
+    work: "Supplier-rating optimization. Top seven among more than 2,000 teams.",
+    year: "2022",
   },
   {
     name: "Samsung Solve for Tomorrow",
     distinction: "Top 50 · Phase 2",
-    work: "AmbuFast: an idea for a five-minute ambulance service.",
+    work: "AmbuFast ambulance concept. Selected from more than 18,000 teams.",
+    year: "2022",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:6978375361222901760/",
   },
   {
