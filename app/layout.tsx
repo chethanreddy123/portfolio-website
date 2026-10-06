@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   icons: { icon: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon.svg` },
 };
-export const viewport: Viewport = { themeColor: "#f5f3ed" };
+export const viewport: Viewport = { themeColor: "#f7f8f5" };
 export default function RootLayout({
   children,
 }: {

@@ -19,6 +19,7 @@ Open [localhost:3000](http://localhost:3000). Local development uses the root pa
 
 ```sh
 npm run lint
+npm run typecheck
 NEXT_PUBLIC_BASE_PATH=/portfolio-website npm run build
 ```
 
@@ -35,9 +36,12 @@ In repository **Settings → Pages**, the publishing source must be **GitHub Act
 ## Editing the portfolio
 
 - `app/` contains the page, global styling and metadata.
-- `components/` contains interactive UI components.
+- `components/portfolio-data.ts` contains the career, projects, skills, credentials, awards and education records.
+- `components/portfolio.tsx` renders the archive, section navigation, filters, search and expandable implementation notes.
 - `public/` contains static images and the existing résumé PDF.
 - `next.config.js` defines static export and deployment paths.
 - `.github/workflows/deploy.yml` controls publishing.
 
-Keep public profile content accurate and update project links alongside project descriptions.
+Keep public profile content accurate and update project links alongside project descriptions. Course completions and event credentials link directly to their original verification pages. Company role progressions stay visible within their career record; teaching and community contributions have their own filters.
+
+The site needs no API keys or application backend. Navigation, project and career filters, credential search, native disclosure elements and email copying work entirely in the browser. It respects reduced-motion preferences and has keyboard-visible focus states.

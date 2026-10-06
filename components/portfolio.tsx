@@ -1,18 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import {
+  awards,
+  career,
+  certificates,
+  currentWork,
+  education,
+  profile,
+  projects,
+  skillGroups,
+  webProjects,
+} from "./portfolio-data";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const email = "achethanreddy1921@gmail.com";
-const github = "https://github.com/chethanreddy123";
-const linkedin = "https://www.linkedin.com/in/achethanreddy/";
+const sections = [
+  ["work", "Current work"],
+  ["career", "Career"],
+  ["projects", "Projects"],
+  ["skills", "Skills"],
+  ["certifications", "Certifications"],
+  ["awards", "Awards"],
+  ["education", "Education"],
+  ["about", "About"],
+  ["contact", "Contact"],
+] as const;
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
@@ -20,56 +39,138 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
       <path
         d={diagonal ? "M6 18 18 6M6 6h12v12" : "M4 12h15m-6-6 6 6-6 6"}
         stroke="currentColor"
-        strokeWidth="1.7"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   );
 }
-
-const responsibilities = [
-  {
-    title: "Requirements & customer success",
-    text: "Work directly with customers to understand what they need, scope changes and support them through delivery.",
-  },
-  {
-    title: "AI & product engineering",
-    text: "Build AI features, backend services and integrations that fit the customer's existing systems and workflows.",
-  },
-  {
-    title: "QA & ongoing delivery",
-    text: "Set up QA automation, investigate issues and work through the changes needed after a release.",
-  },
-];
+function ExternalLink({
+  href,
+  children,
+  className = "inline-link",
+  label,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  label?: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={className}
+      aria-label={label}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+      <Arrow diagonal />
+    </a>
+  );
+}
+function SectionTitle({
+  index,
+  title,
+  description,
+}: {
+  index: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="section-heading">
+      <span className="section-number">{index}</span>
+      <div>
+        <h2>{title}</h2>
+        {description && <p>{description}</p>}
+      </div>
+    </div>
+  );
+}
+function Tags({ items }: { items: string[] }) {
+  return (
+    <ul className="tags" aria-label="Technologies and skills">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Portfolio() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
-  const menuButton = useRef<HTMLButtonElement>(null);
+  const [activeSection, setActiveSection] = useState("work");
+  const [projectFilter, setProjectFilter] = useState("All projects");
+  const [careerFilter, setCareerFilter] = useState("All experience");
+  const [certificateQuery, setCertificateQuery] = useState("");
+  const [certificateIssuer, setCertificateIssuer] = useState("All issuers");
+  const [copyStatus, setCopyStatus] = useState("");
+  const sectionNavRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    if (!copied) return;
-    const timeout = window.setTimeout(() => setCopied(false), 3000);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: "-15% 0px -65% 0px" },
+    );
+    sections.forEach(([id]) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!copyStatus) return;
+    const timeout = window.setTimeout(() => setCopyStatus(""), 4000);
     return () => window.clearTimeout(timeout);
-  }, [copied]);
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && menuOpen) {
-        setMenuOpen(false);
-        menuButton.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
+  }, [copyStatus]);
+
+  const filteredProjects = useMemo(
+    () =>
+      projects.filter(
+        (project) =>
+          projectFilter === "All projects" ||
+          project.category === projectFilter,
+      ),
+    [projectFilter],
+  );
+  const filteredCareer = useMemo(
+    () =>
+      career.filter(
+        (item) =>
+          careerFilter === "All experience" || item.group === careerFilter,
+      ),
+    [careerFilter],
+  );
+  const filteredCertificates = useMemo(
+    () =>
+      certificates.filter((certificate) => {
+        const term = certificateQuery.trim().toLowerCase();
+        return (
+          (certificateIssuer === "All issuers" ||
+            certificate.issuer === certificateIssuer) &&
+          `${certificate.title} ${certificate.issuer} ${certificate.credentialId || ""}`
+            .toLowerCase()
+            .includes(term)
+        );
+      }),
+    [certificateQuery, certificateIssuer],
+  );
+  const issuers = Array.from(
+    new Set(certificates.map((certificate) => certificate.issuer)),
+  ).sort();
+
   async function copyEmail() {
     try {
-      await navigator.clipboard.writeText(email);
-      setCopied(true);
-      setCopyError(false);
+      await navigator.clipboard.writeText(profile.email);
+      setCopyStatus("Email address copied.");
     } catch {
-      setCopyError(true);
+      setCopyStatus("Use the email link or select the address to copy it.");
     }
   }
 
@@ -79,464 +180,705 @@ export default function Portfolio() {
         Skip to content
       </a>
       <header className="site-header">
-        <div className="header-inner wrap">
-          <a className="identity" href="#home" aria-label="Chethan Reddy, home">
-            <span className="monogram">cr</span>
+        <div className="header-inner page-width">
+          <a
+            className="identity"
+            href="#home"
+            aria-label="Chethan Reddy, back to top"
+          >
+            <span className="identity-symbol" aria-hidden="true">
+              c<span>r</span>
+            </span>
             <span>
-              Chethan Reddy<span className="identity-sub">AI ENGINEER</span>
+              Chethan Reddy
+              <span className="identity-caption">
+                ENGINEER · BUILDER · MENTOR
+              </span>
             </span>
           </a>
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <a href="#work">Work</a>
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-          </nav>
-          <a className="header-contact" href="#contact">
-            Get in touch <Arrow diagonal />
-          </a>
-          <button
-            ref={menuButton}
-            className="menu-toggle"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={menuOpen}
-            aria-controls={menuOpen ? "mobile-menu" : undefined}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? "Close" : "Menu"}
-            <span aria-hidden="true">{menuOpen ? "−" : "+"}</span>
-          </button>
+          <div className="header-actions">
+            <a className="header-email" href="#contact">
+              Get in touch <Arrow diagonal />
+            </a>
+            <ExternalLink className="resume-button" href={`${basePath}/CV.pdf`}>
+              Résumé
+            </ExternalLink>
+          </div>
         </div>
-        {menuOpen && (
-          <nav
-            id="mobile-menu"
-            className="mobile-nav"
-            aria-label="Mobile navigation"
-          >
-            {[
-              ["Work", "work"],
-              ["About", "about"],
-              ["Experience", "experience"],
-              ["Get in touch", "contact"],
-            ].map(([label, id]) => (
-              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
-                {label}
-                <Arrow diagonal />
-              </a>
-            ))}
-          </nav>
-        )}
       </header>
 
       <main id="main" tabIndex={-1}>
-        <section className="hero wrap" id="home" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <div className="eyebrow">AI FORWARD DEPLOYED ENGINEER</div>
-            <h1 id="hero-title">
-              I’m Chethan.
-              <br />I build{" "}
-              <span className="hero-emphasis">
-                AI
-                <br className="hero-break" /> products.
+        <section
+          className="intro page-width"
+          id="home"
+          aria-labelledby="intro-name"
+        >
+          <div className="intro-copy">
+            <p className="eyebrow">
+              <span className="square-mark" /> A PERSONAL RECORD OF THE WORK
+            </p>
+            <h1 id="intro-name">
+              Chethan{" "}
+              <span className="surname">
+                Reddy<span className="name-period">.</span>
               </span>
             </h1>
-            <p className="hero-description">
-              My work spans AI applications, backend systems and automation. At
-              Staple AI, I work directly with enterprise customers from
-              requirements through release and ongoing support.
+            <p className="intro-role">
+              AI Forward Deployed Engineer<span>at Staple AI</span>
             </p>
-            <div className="hero-actions">
-              <a className="button button-dark" href="#work">
-                View my work <Arrow />
+            <p className="intro-description">
+              I build AI applications and the software around them: backend
+              systems, product features, and the automation that makes them
+              useful.
+            </p>
+            <div className="intro-links">
+              <a className="solid-button" href="#work">
+                Explore the work <Arrow />
               </a>
-              <a
-                className="text-link"
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub <Arrow diagonal />
-              </a>
+              <ExternalLink href={profile.github}>GitHub</ExternalLink>
+              <ExternalLink href={profile.linkedin}>LinkedIn</ExternalLink>
             </div>
           </div>
-          <figure className="hero-portrait">
-            <div className="portrait-image">
+          <div className="intro-aside">
+            <figure className="portrait">
               <Image
                 src={`${basePath}/profile-pic.jpeg`}
-                alt="Chethan Reddy"
-                width={400}
-                height={400}
-                sizes="(max-width: 700px) 85vw, 400px"
+                alt="Chethan Reddy outdoors"
+                width={500}
+                height={570}
                 priority
               />
+              <figcaption>
+                <span>CHETHAN, OFFLINE</span>
+                <span>INDIA ↗</span>
+              </figcaption>
+            </figure>
+            <div className="intro-note">
+              <span className="note-rule" />
+              <p>
+                Close to the customer.
+                <br />
+                Hands-on with the code.
+              </p>
             </div>
-            <figcaption>
-              <span>Chethan Reddy</span>
-              <span>India · Working remotely</span>
-            </figcaption>
-          </figure>
-          <div className="hero-bottom">
-            <span>AI APPLICATIONS / BACKEND SYSTEMS / PRODUCT DELIVERY</span>
-            <a href="#work">
-              SELECTED WORK <span>↓</span>
-            </a>
           </div>
+          <dl className="intro-facts">
+            <div>
+              <dt>CURRENT SCOPE</dt>
+              <dd>20+ enterprise customers</dd>
+            </div>
+            <div>
+              <dt>FOCUS</dt>
+              <dd>AI · Backend · Product · Automation</dd>
+            </div>
+            <div>
+              <dt>BASED IN</dt>
+              <dd>India · Working remotely</dd>
+            </div>
+          </dl>
         </section>
 
-        <section className="proof-strip" aria-label="Current scope">
-          <div className="wrap proof-inner">
-            <div className="proof-main">
-              <strong>
-                20<span>+</span>
-              </strong>
-              <p>
-                Enterprise customers<span>in my portfolio at Staple AI</span>
-              </p>
-            </div>
-            <div className="proof-detail">
-              <span>CURRENT ROLE</span>
-              <p>
-                AI Forward Deployed
+        <div className="archive-layout page-width">
+          <aside className="contents-rail">
+            <nav
+              ref={sectionNavRef}
+              aria-label="Portfolio sections"
+              className="section-nav"
+            >
+              <p className="contents-label">IN THIS PORTFOLIO</p>
+              <ol>
+                {sections.map(([id, label], index) => (
+                  <li key={id}>
+                    <a
+                      href={`#${id}`}
+                      aria-current={
+                        activeSection === id ? "location" : undefined
+                      }
+                      onClick={() => setActiveSection(id)}
+                    >
+                      <span className="nav-index">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      {label}
+                      <span className="nav-indicator" aria-hidden="true">
+                        ↗
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              <div className="rail-footnote">
+                An ongoing record
                 <br />
-                Engineering
-              </p>
-            </div>
-            <div className="proof-detail">
-              <span>RESPONSIBILITIES</span>
-              <p>
-                Engineering, customer success
-                <br />
-                and QA automation
-              </p>
-            </div>
-          </div>
-        </section>
+                of what I build and learn.
+              </div>
+            </nav>
+          </aside>
 
-        <section
-          className="work-section wrap section-space"
-          id="work"
-          aria-labelledby="work-title"
-        >
-          <div className="section-top">
-            <span className="section-kicker">01 / CURRENT WORK</span>
-            <span className="small-note">Staple AI · Remote</span>
-          </div>
-          <div className="section-heading-row">
-            <h2 id="work-title">
-              Engineering, with
-              <br />
-              the customer in the room.
-            </h2>
-            <p>
-              I turn enterprise requirements into product capabilities, support
-              customers through delivery, and build QA automation around the
-              work.
-            </p>
-          </div>
-          <div className="responsibilities">
-            {responsibilities.map((item, index) => (
-              <article className="responsibility" key={item.title}>
-                <span className="responsibility-index">0{index + 1}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+          <div className="archive-content">
+            <section
+              id="work"
+              className="archive-section work-section"
+              aria-labelledby="work-heading"
+            >
+              <SectionTitle
+                index="01"
+                title="Current work"
+                description="The scope is broad. The ownership is end to end."
+              />
+              <article className="current-role-panel">
+                <div>
+                  <span className="panel-kicker">
+                    STAPLE AI · MAY 2024 — PRESENT
+                  </span>
+                  <h3 id="work-heading">
+                    From customer requirements
+                    <br />
+                    to running software.
+                  </h3>
+                  <p>
+                    As an AI Forward Deployed Engineer, I work across{" "}
+                    <strong>20+ enterprise customers</strong>. My remit connects
+                    new requirements, product engineering, customer success and
+                    QA automation.
+                  </p>
+                </div>
+                <div className="ownership-number">
+                  <span>
+                    20<span>+</span>
+                  </span>
+                  <p>
+                    enterprise customers
+                    <br />
+                    in my portfolio
+                  </p>
+                </div>
               </article>
-            ))}
-          </div>
-          <p className="domain-example">
-            <span>ONE EXAMPLE</span>Intelligent document processing: extracting
-            information and connecting it to downstream workflows. It sits
-            alongside my work on AI applications, backend integrations and
-            automation.
-          </p>
+              <div className="work-records">
+                {currentWork.map((item, index) => (
+                  <article className="work-record" key={item.title}>
+                    <span className="record-index">0{index + 1}</span>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                      <Tags items={item.tags} />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
 
-          <div className="projects-heading">
-            <div>
-              <h3>Selected projects</h3>
-              <p>Education, data exploration and image processing.</p>
-            </div>
-          </div>
-          <div className="project-list">
-            <article className="project-entry">
-              <div className="project-name">
-                <span className="project-index">01</span>
-                <h4>eduAId</h4>
-                <p>Teaching tools</p>
+            <section
+              id="career"
+              className="archive-section"
+              aria-label="Career and professional experience"
+            >
+              <SectionTitle
+                index="02"
+                title="Career, in full"
+                description="Engineering, teaching and the communities where I started building."
+              />
+              <div
+                className="filter-row"
+                role="group"
+                aria-label="Filter career records"
+              >
+                {["All experience", "Engineering", "Teaching", "Community"].map(
+                  (filter) => (
+                    <button
+                      type="button"
+                      key={filter}
+                      onClick={() => setCareerFilter(filter)}
+                      aria-pressed={careerFilter === filter}
+                    >
+                      {filter}
+                    </button>
+                  ),
+                )}
               </div>
-              <div className="project-description">
-                <p>
-                  Backend tools for class summaries, teaching insights, study
-                  plans and AI-assisted note generation.
-                </p>
-                <div className="project-tech">
-                  Python / FastAPI / MongoDB / LLMs
-                </div>
-                <details className="project-details">
-                  <summary>
-                    View implementation notes <span aria-hidden="true">+</span>
-                  </summary>
-                  <p>
-                    Built backend routes for content generation, classroom
-                    insights and study plans, along with a workflow for
-                    generating notes from PDFs.
-                  </p>
-                  <figure className="project-evidence">
-                    <Image
-                      src={`${basePath}/eduaid.png`}
-                      alt="eduAId instructor interface showing student and class management"
-                      width={565}
-                      height={328}
-                    />
-                    <figcaption>
-                      Instructor interface from the original project.
-                    </figcaption>
-                  </figure>
-                </details>
+              <p className="result-count" role="status">
+                {filteredCareer.length} career records
+              </p>
+              <div className="career-list">
+                {filteredCareer.map((item, index) => (
+                  <article
+                    className="career-record"
+                    key={`${item.company}-${item.role}`}
+                  >
+                    <div className="career-meta">
+                      <span>{item.period}</span>
+                      <span
+                        className={
+                          item.current ? "career-current" : "career-group"
+                        }
+                      >
+                        {item.current ? "CURRENT" : item.group}
+                      </span>
+                    </div>
+                    <div className="career-content">
+                      <div className="career-heading">
+                        <span className="company-mark" aria-hidden="true">
+                          {item.company.replace(/[^a-z]/gi, "").slice(0, 2)}
+                        </span>
+                        <div>
+                          <h3>{item.company}</h3>
+                          <p className="role-title">{item.role}</p>
+                        </div>
+                      </div>
+                      <p className="location-line">{item.location}</p>
+                      {item.context && (
+                        <p className="career-context">{item.context}</p>
+                      )}
+                      <p className="career-summary">{item.summary}</p>
+                      {item.progression && (
+                        <ul className="role-progression">
+                          {item.progression.map((role) => (
+                            <li key={role.title}>
+                              <strong>{role.title}</strong>
+                              <span>{role.period}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      <details
+                        className="record-details"
+                        open={index === 0 && careerFilter === "All experience"}
+                      >
+                        <summary>
+                          Responsibilities & technical work
+                          <span aria-hidden="true">+</span>
+                        </summary>
+                        <ul className="detail-list">
+                          {item.details.map((detail) => (
+                            <li key={detail}>{detail}</li>
+                          ))}
+                        </ul>
+                        <Tags items={item.stack} />
+                      </details>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </article>
-            <article className="project-entry">
-              <div className="project-name">
-                <span className="project-index">02</span>
-                <h4>KaRmA</h4>
-                <p>Conversational data exploration</p>
-              </div>
-              <div className="project-description">
-                <p>
-                  A prototype that connects natural-language questions to SQL
-                  data and generates reports through a FastAPI backend.
-                </p>
-                <div className="project-tech">
-                  Python / FastAPI / LangChain / SQL
-                </div>
-                <details className="project-details">
-                  <summary>
-                    View implementation notes <span aria-hidden="true">+</span>
-                  </summary>
-                  <p>
-                    Built a chatbot and report-generation workflow using a
-                    LangChain SQL agent, SQL databases and a FastAPI backend.
-                    The application connects natural-language interaction to
-                    structured business information.
-                  </p>
-                </details>
-              </div>
-            </article>
-            <article className="project-entry">
-              <div className="project-name">
-                <span className="project-index">03</span>
-                <h4>PhotoBook</h4>
-                <p>Image processing</p>
-              </div>
-              <div className="project-description">
-                <p>
-                  An image-processing API that takes uploaded photos and page
-                  dimensions, then produces a downloadable PDF layout.
-                </p>
-                <div className="project-tech">
-                  Python / FastAPI / Pillow / FPDF
-                </div>
-                <a
-                  className="text-link source-link"
-                  href={`${github}/PhotoBook-Backend`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View source <Arrow diagonal />
-                </a>
-              </div>
-            </article>
-          </div>
-        </section>
+            </section>
 
-        <section
-          className="about-section"
-          id="about"
-          aria-labelledby="about-title"
-        >
-          <div className="wrap about-grid">
-            <div className="about-title">
-              <span className="section-kicker">02 / ABOUT ME</span>
-              <h2 id="about-title">
-                A bit more
-                <br />
-                about me.
-              </h2>
-              <div className="personal-detail">
-                <span>AWAY FROM THE KEYBOARD</span>
-                <p>
-                  Swimming.
-                  <br />
-                  Flying drones.
-                </p>
+            <section
+              id="projects"
+              className="archive-section"
+              aria-label="Project archive"
+            >
+              <SectionTitle
+                index="03"
+                title="Projects & independent work"
+                description="Applications, platforms, experiments and competition builds. Open a record for the implementation details."
+              />
+              <div
+                className="filter-row"
+                role="group"
+                aria-label="Filter projects"
+              >
+                {[
+                  "All projects",
+                  "AI applications",
+                  "Backend & platforms",
+                  "ML & vision",
+                ].map((filter) => (
+                  <button
+                    type="button"
+                    key={filter}
+                    onClick={() => setProjectFilter(filter)}
+                    aria-pressed={projectFilter === filter}
+                  >
+                    {filter}
+                  </button>
+                ))}
               </div>
-            </div>
-            <div className="about-copy">
-              <p className="about-lead">
-                I spend my time between customer conversations and code.
+              <p className="result-count" role="status">
+                Showing {filteredProjects.length} of {projects.length} projects
               </p>
-              <p>
-                Some days that means working through a new requirement. On
-                others, it means building a feature, investigating an issue or
-                setting up a QA check. That range is a big part of my work as a
-                Forward Deployed Engineer.
-              </p>
-              <p>
-                I’m interested in roles where I can keep that connection between
-                engineering and the people using the product.
-              </p>
-              <div className="about-links">
-                <a
-                  className="text-link"
-                  href={linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LinkedIn <Arrow diagonal />
-                </a>
-                <a
-                  className="text-link"
-                  href={`${basePath}/CV.pdf`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Résumé <Arrow diagonal />
-                </a>
+              <div className="project-grid">
+                {filteredProjects.map((project) => (
+                  <article className="project-record" key={project.name}>
+                    <div className="project-category">
+                      <span>{project.type}</span>
+                      <span aria-hidden="true">↗</span>
+                    </div>
+                    <h3>{project.name}</h3>
+                    <p className="project-summary">{project.summary}</p>
+                    <Tags items={project.stack} />
+                    <details className="record-details">
+                      <summary>
+                        Inside the build<span aria-hidden="true">+</span>
+                      </summary>
+                      <ul className="detail-list">
+                        {project.details.map((detail) => (
+                          <li key={detail}>{detail}</li>
+                        ))}
+                      </ul>
+                      {project.image && (
+                        <figure className="project-evidence">
+                          <Image
+                            src={`${basePath}${project.image}`}
+                            alt="Original eduAId instructor interface with student and classroom management"
+                            width={565}
+                            height={328}
+                          />
+                          <figcaption>
+                            Interface from the original project.
+                          </figcaption>
+                        </figure>
+                      )}
+                    </details>
+                    {project.link && (
+                      <ExternalLink
+                        href={project.link}
+                        className="project-source"
+                      >
+                        {project.linkLabel || "View project"}
+                      </ExternalLink>
+                    )}
+                  </article>
+                ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="experience-section wrap section-space"
-          id="experience"
-          aria-labelledby="experience-title"
-        >
-          <div className="section-top">
-            <span className="section-kicker">03 / EXPERIENCE</span>
-          </div>
-          <div className="experience-grid">
-            <div>
-              <h2 id="experience-title">Where I’ve worked.</h2>
-              <p className="experience-intro">
-                AI applications, backend engineering and enterprise delivery.
-              </p>
-              <div className="stack-block">
-                <span className="section-kicker">TECHNOLOGIES</span>
-                <div className="stack-tags">
-                  {[
-                    "Python",
-                    "FastAPI",
-                    "LangChain",
-                    "SQL",
-                    "LLMs & RAG",
-                    "Computer vision",
-                    "AWS",
-                    "Kubernetes",
-                  ].map((skill) => (
-                    <span key={skill}>{skill}</span>
+              <div className="web-projects-section">
+                <div className="web-projects-heading">
+                  <h3>Websites & explorations</h3>
+                  <p>Websites for businesses, educational programmes and new ideas.</p>
+                </div>
+                <div className="web-project-list">
+                  {webProjects.map((project) => (
+                    <article className="web-project-record" key={project.name}>
+                      <div className="web-project-name">
+                        <span>{project.kind}</span>
+                        <h4>{project.name}</h4>
+                      </div>
+                      <div>
+                        <p>{project.description}</p>
+                        <span className="web-project-stack">
+                          {project.stack}
+                        </span>
+                      </div>
+                      {project.url && (
+                        <ExternalLink
+                          href={project.url}
+                          className="web-project-link"
+                          label={`View ${project.name} ${project.kind.toLowerCase()}`}
+                        >
+                          <span>Visit</span>
+                        </ExternalLink>
+                      )}
+                    </article>
                   ))}
                 </div>
               </div>
-            </div>
-            <div className="experience-list">
-              <article className="experience-item">
-                <div className="experience-meta">
-                  <span className="current-label">CURRENT</span>
-                  <span>Singapore · Remote</span>
-                </div>
-                <h3>Staple AI</h3>
-                <h4>AI Forward Deployed Engineering</h4>
-                <p>
-                  Customer requirements, product engineering, customer success
-                  and QA automation across enterprise AI workflows.
-                </p>
-              </article>
-              <article className="experience-item">
-                <div className="experience-meta">
-                  <span>DEC 2023 — MAY 2024</span>
-                  <span>US · Remote</span>
-                </div>
-                <h3>Dotnitron Technologies</h3>
-                <h4>AI Software Engineer</h4>
-                <p>
-                  RAG applications and backend development using Python, Django,
-                  FastAPI and language models.
-                </p>
-              </article>
-              <article className="experience-item">
-                <div className="experience-meta">
-                  <span>2023</span>
-                  <span>Pune, India</span>
-                </div>
-                <h3>Bajaj Finserv Health</h3>
-                <h4>Data Science Engineer Intern</h4>
-                <p>
-                  Recommendation systems, document and image analytics, and
-                  information retrieval with SQL and Elasticsearch.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
+            </section>
 
-        <section
-          className="contact-section"
-          id="contact"
-          aria-labelledby="contact-title"
-        >
-          <div className="wrap">
-            <div className="contact-top">
-              <span className="section-kicker">04 / CONTACT</span>
-              <span>BASED IN INDIA · WORKING REMOTELY</span>
-            </div>
-            <div className="contact-main">
-              <h2 id="contact-title">Let’s talk.</h2>
-              <a
-                className="contact-circle"
-                href={`mailto:${email}`}
-                aria-label="Email Chethan Reddy"
-              >
-                <Arrow diagonal />
-              </a>
-            </div>
-            <div className="contact-bottom">
-              <div>
-                <a className="email-link" href={`mailto:${email}`}>
-                  {email}
+            <section
+              id="skills"
+              className="archive-section"
+              aria-label="Technical skills"
+            >
+              <SectionTitle
+                index="04"
+                title="Tools of the trade"
+                description="The technologies and practices that show up in my work."
+              />
+              <div className="skills-grid">
+                {skillGroups.map((group, index) => (
+                  <article className="skill-group" key={group.title}>
+                    <span className="record-index">0{index + 1}</span>
+                    <h3>{group.title}</h3>
+                    <ul>
+                      {group.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section
+              id="certifications"
+              className="archive-section"
+              aria-label="Certifications and learning credentials"
+            >
+              <SectionTitle
+                index="05"
+                title="Learning, on record"
+                description="Course completions, virtual programs and event credentials, with their original verification links."
+              />
+              <div className="credential-controls">
+                <div className="search-field">
+                  <label htmlFor="certificate-search">SEARCH CREDENTIALS</label>
+                  <div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="10.5"
+                        cy="10.5"
+                        r="6.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="m16 16 5 5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+                    <input
+                      id="certificate-search"
+                      type="search"
+                      value={certificateQuery}
+                      onChange={(event) =>
+                        setCertificateQuery(event.target.value)
+                      }
+                      placeholder="Python, machine learning, issuer…"
+                    />
+                  </div>
+                </div>
+                <div className="issuer-field">
+                  <label htmlFor="certificate-issuer">ISSUER</label>
+                  <select
+                    id="certificate-issuer"
+                    value={certificateIssuer}
+                    onChange={(event) =>
+                      setCertificateIssuer(event.target.value)
+                    }
+                  >
+                    <option>All issuers</option>
+                    {issuers.map((issuer) => (
+                      <option key={issuer}>{issuer}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="credentials-summary">
+                <p className="result-count" role="status">
+                  {filteredCertificates.length} of {certificates.length}{" "}
+                  credentials
+                </p>
+                <ExternalLink
+                  href={`${profile.linkedin}details/certifications/`}
+                >
+                  LinkedIn record
+                </ExternalLink>
+              </div>
+              <div className="credentials-list">
+                {filteredCertificates.map((certificate) => (
+                  <article
+                    className="credential-record"
+                    key={certificate.credentialId || certificate.title}
+                  >
+                    <span className="credential-mark" aria-hidden="true">
+                      {certificate.issuer === "Coursera"
+                        ? "c"
+                        : certificate.issuer.slice(0, 1)}
+                    </span>
+                    <div className="credential-main">
+                      <p className="credential-issuer">
+                        {certificate.issuer} <span>· {certificate.date}</span>
+                      </p>
+                      <h3>{certificate.title}</h3>
+                      {certificate.credentialId && (
+                        <p className="credential-id">
+                          ID {certificate.credentialId}
+                        </p>
+                      )}
+                    </div>
+                    {certificate.url && (
+                      <ExternalLink
+                        className="credential-link"
+                        href={certificate.url}
+                        label={`View credential: ${certificate.title}`}
+                      >
+                        <span>View credential</span>
+                      </ExternalLink>
+                    )}
+                  </article>
+                ))}
+                {filteredCertificates.length === 0 && (
+                  <div className="empty-state">
+                    <p>No credentials match these filters.</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCertificateQuery("");
+                        setCertificateIssuer("All issuers");
+                      }}
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <section
+              id="awards"
+              className="archive-section"
+              aria-label="Awards and hackathon achievements"
+            >
+              <SectionTitle
+                index="06"
+                title="Built under pressure"
+                description="Hackathons and competitions across AI, healthcare, finance, mobility and enterprise software."
+              />
+              <div className="award-list">
+                {awards.map((award, index) => (
+                  <article className="award-record" key={award.name}>
+                    <span className="award-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="award-main">
+                      <h3>{award.name}</h3>
+                      <p>{award.work}</p>
+                      {award.url && (
+                        <ExternalLink href={award.url} className="award-source">
+                          View recognition
+                        </ExternalLink>
+                      )}
+                    </div>
+                    <div className="award-distinction">
+                      <strong>{award.distinction}</strong>
+                      {award.year && <span>{award.year}</span>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section
+              id="education"
+              className="archive-section"
+              aria-label="Education"
+            >
+              <SectionTitle index="07" title="Education" />
+              <article className="education-record">
+                <span className="education-mark" aria-hidden="true">
+                  VIT
+                </span>
+                <div>
+                  <p className="education-period">
+                    {education.period} · {education.location}
+                  </p>
+                  <h3>{education.institution}</h3>
+                  <p className="education-degree">{education.degree}</p>
+                  {education.result && (
+                    <p className="education-result">{education.result}</p>
+                  )}
+                  <p className="education-note">
+                    Alongside my degree: the IEEE Computer Society, Team AutoZ
+                    and TIFAC projects, plus student tools, machine-learning
+                    experiments and competitions.
+                  </p>
+                </div>
+              </article>
+              <div className="earlier-education">
+                <article>
+                  <span>HIGHER SECONDARY · MPC</span>
+                  <h3>Sree Vidyanikethan</h3>
+                  <p>Tirupati, India</p>
+                </article>
+                <article>
+                  <span>SECONDARY EDUCATION</span>
+                  <h3>Bharatiya Vidya Bhavan’s</h3>
+                  <p>High school</p>
+                </article>
+              </div>
+            </section>
+
+            <section
+              id="about"
+              className="archive-section"
+              aria-label="About Chethan"
+            >
+              <SectionTitle index="08" title="A little more about me" />
+              <div className="about-prose">
+                <p className="about-lead">
+                  I’m comfortable moving between a customer conversation, a
+                  system design decision and the code that makes it work.
+                </p>
+                <p>
+                  My path started with teaching Python and working on
+                  machine-learning projects. It grew into backend engineering,
+                  full-stack products and enterprise AI delivery. Teaching still
+                  shapes how I work: make the problem understandable, examine
+                  the assumptions, and explain the decision.
+                </p>
+                <p>
+                  I enjoy working on the whole problem. That can mean building
+                  an API, tracing a production issue, automating a repetitive
+                  workflow, or helping someone use a product well.
+                </p>
+                <div className="offscreen-note">
+                  <span>AWAY FROM THE KEYBOARD</span>
+                  <p>Swimming. Flying drones. Following the next idea.</p>
+                </div>
+              </div>
+            </section>
+
+            <section
+              id="contact"
+              className="archive-section contact-section"
+              aria-labelledby="contact-heading"
+            >
+              <div className="contact-opening">
+                <span className="section-number">09</span>
+                <p>LET’S HAVE A CONVERSATION</p>
+              </div>
+              <h2 id="contact-heading">
+                Good work starts
+                <br />
+                with a hello<span>.</span>
+              </h2>
+              <p className="contact-description">
+                For AI engineering, product development and backend work—or an
+                interesting problem worth discussing.
+              </p>
+              <div className="contact-email-row">
+                <a href={`mailto:${profile.email}`} className="email-link">
+                  {profile.email}
+                  <Arrow diagonal />
                 </a>
                 <button
-                  className="copy-button"
+                  type="button"
                   onClick={copyEmail}
-                  aria-label="Copy email address"
+                  aria-label="Copy Chethan’s email address"
+                  className="copy-button"
                 >
-                  {copied ? "Copied ✓" : "Copy email"}
+                  Copy email
                 </button>
-                <span className="copy-status" role="status">
-                  {copied
-                    ? "Email address copied."
-                    : copyError
-                      ? "Please use the email link to get in touch."
-                      : ""}
-                </span>
               </div>
-              <div className="social-links">
-                <a href={linkedin} target="_blank" rel="noopener noreferrer">
-                  LinkedIn <Arrow diagonal />
-                </a>
-                <a href={github} target="_blank" rel="noopener noreferrer">
-                  GitHub <Arrow diagonal />
-                </a>
+              <p role="status" className="copy-status">
+                {copyStatus}
+              </p>
+              <div className="contact-links">
+                <ExternalLink href={profile.linkedin}>LinkedIn</ExternalLink>
+                <ExternalLink href={profile.github}>GitHub</ExternalLink>
+                <ExternalLink href={profile.leetcode}>LeetCode</ExternalLink>
+                <ExternalLink href={`${basePath}/CV.pdf`}>Résumé</ExternalLink>
               </div>
-            </div>
+              <p className="contact-location">
+                Based in India. Working remotely.
+              </p>
+            </section>
           </div>
-        </section>
-      </main>
-      <footer className="site-footer wrap">
-        <a href="#home" className="footer-wordmark" aria-label="Back to top">
-          chethan reddy<span>↗</span>
-        </a>
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Chethan Reddy</span>
-          <a href="#home">BACK TO TOP ↑</a>
         </div>
+      </main>
+      <footer className="site-footer page-width">
+        <a href="#home" className="footer-name">
+          Chethan Reddy<span>↗</span>
+        </a>
+        <p>© {new Date().getFullYear()} · An ongoing body of work.</p>
+        <a href="#home" className="back-top">
+          Back to top ↑
+        </a>
       </footer>
     </>
   );
