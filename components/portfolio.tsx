@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { caseStudies } from "./case-studies";
 import {
+  type CareerEntry,
   awards,
   career,
   certificates,
@@ -12,13 +13,16 @@ import {
   profile,
   projects,
   skillGroups,
-  webProjects,
 } from "./portfolio-data";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const projectCases: Record<string, string> = {
-  "Operations ERP": "operations", "Clinical Scribe / ScribeDesk": "clinical",
-  "Applywise": "workflows", "AuditVault": "workflows",
+  "Complex-table extraction": "production-ai",
+  "LLM / VLM evaluation platform": "evaluation",
+  "API regression automation": "regression",
+  "Asynchronous document processing": "async",
+  "Database routing & observability": "infrastructure",
+  "Enterprise migrations & recovery": "enterprise"
 };
 const sections = [
   ["work", "Selected work"],
@@ -106,6 +110,29 @@ function Tags({ items }: { items: string[] }) {
   );
 }
 
+function CareerHeading({ item }: { item: CareerEntry }) {
+  const content = (
+    <>
+      {item.logo && (
+        <span className="company-mark" aria-hidden="true">
+          <Image src={`${basePath}${item.logo}`} alt="" width={48} height={48} />
+        </span>
+      )}
+      <div>
+        <h3>{item.company}{item.companyUrl && <Arrow diagonal />}</h3>
+        <p className="role-title">{item.role}</p>
+      </div>
+    </>
+  );
+  return item.companyUrl ? (
+    <a className="career-heading career-company-link"
+      href={item.companyUrl} target="_blank" rel="noopener noreferrer"
+      aria-label={`Visit ${item.company} company page`}>
+      {content}
+    </a>
+  ) : <div className="career-heading">{content}</div>;
+}
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("work");
   const [caseIndex, setCaseIndex] = useState(0);
@@ -126,6 +153,9 @@ export default function Portfolio() {
         requestAnimationFrame(() => requestAnimationFrame(() =>
           document.getElementById(`case-${caseStudies[index].id}`)?.scrollIntoView({ block: "start" })
         ));
+      } else {
+        const section = sections.find(([id]) => window.location.hash === `#${id}`);
+        if (section) setActiveSection(section[0]);
       }
     };
     selectFromHash();
@@ -134,24 +164,38 @@ export default function Portfolio() {
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
-          setActiveSection("contact");
-          return;
-        }
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length) setActiveSection(visible[0].target.id);
-      },
-      { rootMargin: "-15% 0px -65% 0px" },
-    );
-    sections.forEach(([id]) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-    return () => observer.disconnect();
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+        setActiveSection("contact");
+        return;
+      }
+      const scrollPadding = Number.parseFloat(
+        window.getComputedStyle(document.documentElement).scrollPaddingTop,
+      ) || 110;
+      const activationLine = scrollPadding + 16;
+      let current = "work";
+      for (const [id] of sections) {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= activationLine) current = id;
+        else if (section) break;
+      }
+      setActiveSection(current);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
+    };
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", scheduleUpdate);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("hashchange", scheduleUpdate);
+    };
   }, []);
   useEffect(() => {
     const nav = sectionNavRef.current;
@@ -267,8 +311,8 @@ export default function Portfolio() {
             <p className="intro-description">
               I build AI applications and the backend systems that run them.
               At Staple AI, I own engineering delivery for 20+ enterprise customers.
-              As founder of AIoverflow, I build clinical documentation, business
-              operations and career tools.
+              My work connects applied models, reliable services, QA automation
+              and customer delivery.
             </p>
             <div className="intro-links">
               <a className="solid-button" href="#work">
@@ -307,8 +351,8 @@ export default function Portfolio() {
               <dd>20+ enterprise customers</dd>
             </div>
             <div>
-              <dt>ALSO BUILDING</dt>
-              <dd>Founder · AIoverflow</dd>
+              <dt>ENGINEERING FOCUS</dt>
+              <dd>Applied AI · Backend systems</dd>
             </div>
             <div>
               <dt>CURRENT ROLE</dt>
@@ -349,7 +393,7 @@ export default function Portfolio() {
               <div className="rail-footnote">
                 Selected work, followed
                 <br />
-                by the complete archive.
+                by career and projects.
               </div>
             </nav>
           </aside>
@@ -366,8 +410,8 @@ export default function Portfolio() {
                 title="Selected engineering work"
                 description="The problem, my engineering decisions and the outcome."
               />
-              <p className="work-introduction">Six examples from Staple AI and AIoverflow: production models,
-                reliable backends and software built around real working processes.</p>
+              <p className="work-introduction">Six examples from my work at Staple AI: model integration,
+                evaluation, reliable backends and enterprise delivery.</p>
               <div className="case-study-browser">
                 <div className="case-selector" role="group" aria-label="Choose an engineering case study">
                   {caseStudies.map((item, index) => (
@@ -458,15 +502,7 @@ export default function Portfolio() {
                       </span>
                     </div>
                     <div className="career-content">
-                      <div className="career-heading">
-                        <span className="company-mark" aria-hidden="true">
-                          {item.company.replace(/[^a-z]/gi, "").slice(0, 2)}
-                        </span>
-                        <div>
-                          <h3>{item.company}</h3>
-                          <p className="role-title">{item.role}</p>
-                        </div>
-                      </div>
+                      <CareerHeading item={item} />
                       <p className="location-line">{item.location}</p>
                       {item.context && (
                         <p className="career-context">{item.context}</p>
@@ -510,8 +546,8 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="03"
-                title="Projects & independent work"
-                description="Applications, platforms, experiments and competition builds. Open a record for the implementation details."
+                title="Projects & technical builds"
+                description="Staple AI engineering, followed by earlier applications and competition builds. Open a record for the implementation details."
               />
               <div className="project-search search-field">
                 <label htmlFor="project-search">SEARCH PROJECTS</label>
@@ -587,47 +623,6 @@ export default function Portfolio() {
                   </article>
                 ))}
               </div>
-              <details className="research-archive record-details">
-                <summary>More prototypes, research & delivery work<span aria-hidden="true">+</span></summary>
-                <ul className="detail-list">
-                  <li><strong>AIoverflow Admin:</strong> a visual administration scaffold; authentication and persistence were planned.</li>
-                  <li><strong>Social automation:</strong> a TypeScript dry-run scaffold with live publishing adapters disabled.</li>
-                  <li><strong>Donor research tools:</strong> a read-only research library and fixture-based outreach-draft compiler, developed for research and review.</li>
-                  <li><strong>Client and personal websites:</strong> RKR and Nithin portfolio delivery, alongside the websites below. The owner’s academic and career credentials remain their own.</li>
-                  <li><strong>Training materials:</strong> coding exercises, learning resources and document-generation tools, building on earlier Python and ML teaching.</li>
-                </ul>
-              </details>
-              <div className="web-projects-section">
-                <div className="web-projects-heading">
-                  <h3>Websites & explorations</h3>
-                  <p>Websites for businesses, educational programmes and new ideas.</p>
-                </div>
-                <div className="web-project-list">
-                  {webProjects.map((project) => (
-                    <article className="web-project-record" key={project.name}>
-                      <div className="web-project-name">
-                        <span>{project.kind}</span>
-                        <h4>{project.name}</h4>
-                      </div>
-                      <div>
-                        <p>{project.description}</p>
-                        <span className="web-project-stack">
-                          {project.stack}
-                        </span>
-                      </div>
-                      {project.url && (
-                        <ExternalLink
-                          href={project.url}
-                          className="web-project-link"
-                          label={`Visit ${project.name} ${project.kind.toLowerCase()}`}
-                        >
-                          <span>Visit</span>
-                        </ExternalLink>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              </div>
             </section>
 
             <section
@@ -638,7 +633,7 @@ export default function Portfolio() {
               <SectionTitle
                 index="04"
                 title="Tools of the trade"
-                description="The technologies and practices that show up in my work."
+                description="Engineering capabilities, with examples of where I have applied them."
               />
               <div className="skills-grid">
                 {skillGroups.map((group, index) => (
@@ -650,6 +645,13 @@ export default function Portfolio() {
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
+                    <div className="skill-evidence" aria-label={`${group.title} work examples`}>
+                      {group.evidence.map((example) => (
+                        <a href={example.href} key={example.href}>
+                          {example.label}<span aria-hidden="true">↗</span>
+                        </a>
+                      ))}
+                    </div>
                   </article>
                 ))}
               </div>

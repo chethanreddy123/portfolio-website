@@ -1,6 +1,6 @@
 # Chethan Reddy — Portfolio
 
-Personal portfolio for Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI and founder of AIoverflow. Built with Next.js, React and TypeScript, and exported as a static site for GitHub Pages.
+Personal portfolio for Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI. Built with Next.js, React and TypeScript, and exported as a static site for GitHub Pages.
 
 [Visit the portfolio](https://chethanreddy123.github.io/portfolio-website/)
 
@@ -40,6 +40,7 @@ In repository **Settings → Pages**, the publishing source must be **GitHub Act
 - `components/portfolio.tsx` renders the archive, section navigation, filters, search and expandable implementation notes.
 - `components/case-studies.ts` contains six detailed engineering cases and their contribution/delivery scope.
 - `public/` contains static images and the current two-page general base résumé PDF.
+- `public/company-logos/` contains verified original employer/institution marks; records without a verified mark use a plain company heading.
 - `next.config.js` defines static export and deployment paths.
 - `.github/workflows/deploy.yml` controls publishing.
 
@@ -49,4 +50,4 @@ The site needs no API keys or application backend. Navigation, deep-linked case 
 
 ## Content edition — 10 October 2026
 
-Six engineering case studies, 16 career records, 22 project families, four website explorations, 19 credentials and 15 awards. Additional prototypes and research tools are summarized separately. Current FDE and earlier SDE responsibilities are separated; named collaborators are credited. Public summaries omit private employer/customer identifiers and distinguish releases from staging, implementation and prototypes. The source evidence and review reports remain in the private workspace.
+Six Staple AI engineering case studies, 15 career records, 15 project families, 19 credentials and 15 awards. The project archive covers six Staple engineering areas, one advisory website team contribution and eight earlier applications or competition builds. Current FDE and earlier SDE responsibilities are separated. Public summaries omit private employer/customer identifiers and distinguish releases from staging, implementation and prototypes. The source evidence and review reports remain in the private workspace.

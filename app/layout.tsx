@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
   description:
-    "Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI and founder of AIoverflow. Production AI, backend systems and delivery across 20+ enterprise customers.",
+    "Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI. Production AI, backend systems and delivery across 20+ enterprise customers.",
   alternates: { canonical: siteUrl },
   openGraph: {
     type: "website",
