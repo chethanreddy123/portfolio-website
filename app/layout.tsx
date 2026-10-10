@@ -15,15 +15,15 @@ const space = Space_Grotesk({
 const siteUrl = "https://chethanreddy123.github.io/portfolio-website/";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Chethan Reddy — AI Forward Deployed Engineer",
+  title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
   description:
-    "Chethan Reddy, AI Forward Deployed Engineer at Staple AI. AI applications, backend systems, product engineering and delivery across 20+ enterprise customers.",
+    "Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI and founder of AIoverflow. Production AI, backend systems and delivery across 20+ enterprise customers.",
   alternates: { canonical: siteUrl },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    title: "Chethan Reddy — AI Forward Deployed Engineer",
+    title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
     description: "AI applications, backend systems and product delivery.",
     siteName: "Chethan Reddy",
     images: [
@@ -31,19 +31,19 @@ export const metadata: Metadata = {
         url: "social-card.png",
         width: 1200,
         height: 630,
-        alt: "Chethan Reddy — AI Forward Deployed Engineer",
+        alt: "Chethan Reddy — FDE-2 & Applied AI Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chethan Reddy — AI Forward Deployed Engineer",
+    title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
     images: ["social-card.png"],
   },
   robots: { index: true, follow: true },
   icons: { icon: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon.svg` },
 };
-export const viewport: Viewport = { themeColor: "#f7f8f5" };
+export const viewport: Viewport = { themeColor: "#f6f5f0" };
 export default function RootLayout({
   children,
 }: {
@@ -61,7 +61,7 @@ export default function RootLayout({
               "@type": "Person",
               name: "Chethan Reddy",
               url: siteUrl,
-              jobTitle: "AI Forward Deployed Engineer",
+              jobTitle: "Forward Deployed Engineer (FDE-2)",
               worksFor: { "@type": "Organization", name: "Staple AI" },
               sameAs: [
                 "https://github.com/chethanreddy123",

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { caseStudies } from "./case-studies";
 import {
   awards,
   career,
@@ -15,8 +16,12 @@ import {
 } from "./portfolio-data";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const projectCases: Record<string, string> = {
+  "Operations ERP": "operations", "Clinical Scribe / ScribeDesk": "clinical",
+  "Applywise": "workflows", "AuditVault": "workflows",
+};
 const sections = [
-  ["work", "Current work"],
+  ["work", "Selected work"],
   ["career", "Career"],
   ["projects", "Projects"],
   ["skills", "Skills"],
@@ -74,16 +79,18 @@ function SectionTitle({
   index,
   title,
   description,
+  id,
 }: {
   index: string;
   title: string;
   description?: string;
+  id?: string;
 }) {
   return (
     <div className="section-heading">
       <span className="section-number">{index}</span>
       <div>
-        <h2>{title}</h2>
+        <h2 id={id}>{title}</h2>
         {description && <p>{description}</p>}
       </div>
     </div>
@@ -101,6 +108,8 @@ function Tags({ items }: { items: string[] }) {
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("work");
+  const [caseIndex, setCaseIndex] = useState(0);
+  const [projectQuery, setProjectQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("All projects");
   const [careerFilter, setCareerFilter] = useState("All experience");
   const [certificateQuery, setCertificateQuery] = useState("");
@@ -109,8 +118,28 @@ export default function Portfolio() {
   const sectionNavRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const selectFromHash = () => {
+      const index = caseStudies.findIndex(item => window.location.hash === `#case-${item.id}`);
+      if (index >= 0) {
+        setCaseIndex(index);
+        setActiveSection("work");
+        requestAnimationFrame(() => requestAnimationFrame(() =>
+          document.getElementById(`case-${caseStudies[index].id}`)?.scrollIntoView({ block: "start" })
+        ));
+      }
+    };
+    selectFromHash();
+    window.addEventListener("hashchange", selectFromHash);
+    return () => window.removeEventListener("hashchange", selectFromHash);
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+          setActiveSection("contact");
+          return;
+        }
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -125,6 +154,15 @@ export default function Portfolio() {
     return () => observer.disconnect();
   }, []);
   useEffect(() => {
+    const nav = sectionNavRef.current;
+    const active = nav?.querySelector<HTMLAnchorElement>(`a[href="#${activeSection}"]`);
+    if (nav && active && nav.scrollWidth > nav.clientWidth) {
+      const delta = active.getBoundingClientRect().left - nav.getBoundingClientRect().left;
+      nav.scrollTo({ left: nav.scrollLeft + delta - 20, behavior: "auto" });
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
     if (!copyStatus) return;
     const timeout = window.setTimeout(() => setCopyStatus(""), 4000);
     return () => window.clearTimeout(timeout);
@@ -134,10 +172,10 @@ export default function Portfolio() {
     () =>
       projects.filter(
         (project) =>
-          projectFilter === "All projects" ||
-          project.category === projectFilter,
+          (projectFilter === "All projects" || project.category === projectFilter) &&
+          `${project.name} ${project.summary} ${project.stack.join(" ")}`.toLowerCase().includes(projectQuery.trim().toLowerCase()),
       ),
-    [projectFilter],
+    [projectFilter, projectQuery],
   );
   const filteredCareer = useMemo(
     () =>
@@ -192,7 +230,7 @@ export default function Portfolio() {
             <span>
               Chethan Reddy
               <span className="identity-caption">
-                ENGINEER · BUILDER · MENTOR
+                FDE · APPLIED AI · PRODUCT ENGINEERING
               </span>
             </span>
           </a>
@@ -215,7 +253,7 @@ export default function Portfolio() {
         >
           <div className="intro-copy">
             <p className="eyebrow">
-              <span className="square-mark" /> A PERSONAL RECORD OF THE WORK
+              <span className="square-mark" /> FROM CUSTOMER REQUIREMENTS TO PRODUCTION
             </p>
             <h1 id="intro-name">
               Chethan{" "}
@@ -224,16 +262,17 @@ export default function Portfolio() {
               </span>
             </h1>
             <p className="intro-role">
-              AI Forward Deployed Engineer<span>at Staple AI</span>
+              Forward Deployed Engineer, Level 2<span>at Staple AI</span>
             </p>
             <p className="intro-description">
-              I build AI applications and the software around them: backend
-              systems, product features, and the automation that makes them
-              useful.
+              I build AI applications and the backend systems that run them.
+              At Staple AI, I own engineering delivery for 20+ enterprise customers.
+              As founder of AIoverflow, I build clinical documentation, business
+              operations and career tools.
             </p>
             <div className="intro-links">
               <a className="solid-button" href="#work">
-                Explore the work <Arrow />
+                See the engineering <Arrow />
               </a>
               <ExternalLink href={profile.github}>GitHub</ExternalLink>
               <ExternalLink href={profile.linkedin}>LinkedIn</ExternalLink>
@@ -256,9 +295,9 @@ export default function Portfolio() {
             <div className="intro-note">
               <span className="note-rule" />
               <p>
-                Close to the customer.
+                Customer conversations.
                 <br />
-                Hands-on with the code.
+                Systems thinking. Code.
               </p>
             </div>
           </div>
@@ -268,12 +307,12 @@ export default function Portfolio() {
               <dd>20+ enterprise customers</dd>
             </div>
             <div>
-              <dt>FOCUS</dt>
-              <dd>AI · Backend · Product · Automation</dd>
+              <dt>ALSO BUILDING</dt>
+              <dd>Founder · AIoverflow</dd>
             </div>
             <div>
-              <dt>BASED IN</dt>
-              <dd>India · Working remotely</dd>
+              <dt>CURRENT ROLE</dt>
+              <dd>Singapore · Hybrid</dd>
             </div>
           </dl>
         </section>
@@ -308,9 +347,9 @@ export default function Portfolio() {
                 ))}
               </ol>
               <div className="rail-footnote">
-                An ongoing record
+                Selected work, followed
                 <br />
-                of what I build and learn.
+                by the complete archive.
               </div>
             </nav>
           </aside>
@@ -323,37 +362,39 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="01"
-                title="Current work"
-                description="The scope is broad. The ownership is end to end."
+                id="work-heading"
+                title="Selected engineering work"
+                description="The problem, my engineering decisions and the outcome."
               />
-              <article className="current-role-panel">
-                <div>
-                  <span className="panel-kicker">
-                    STAPLE AI · MAY 2024 — PRESENT
-                  </span>
-                  <h3 id="work-heading">
-                    From customer requirements
-                    <br />
-                    to running software.
-                  </h3>
-                  <p>
-                    As an AI Forward Deployed Engineer, I work across{" "}
-                    <strong>20+ enterprise customers</strong>. My remit connects
-                    new requirements, product engineering, customer success and
-                    QA automation.
-                  </p>
+              <p className="work-introduction">Six examples from Staple AI and AIoverflow: production models,
+                reliable backends and software built around real working processes.</p>
+              <div className="case-study-browser">
+                <div className="case-selector" role="group" aria-label="Choose an engineering case study">
+                  {caseStudies.map((item, index) => (
+                    <button type="button" key={item.id} aria-pressed={caseIndex === index}
+                      aria-controls={`case-${item.id}`} onClick={() => { setCaseIndex(index); window.history.replaceState(null, "", `#case-${item.id}`); }}>
+                      <span>{String(index + 1).padStart(2, "0")}</span>{item.label}
+                    </button>
+                  ))}
                 </div>
-                <div className="ownership-number">
-                  <span>
-                    20<span>+</span>
-                  </span>
-                  <p>
-                    enterprise customers
-                    <br />
-                    in my portfolio
-                  </p>
-                </div>
-              </article>
+                <p className="sr-only" role="status">Showing case study: {caseStudies[caseIndex].label}</p>
+                {caseStudies.map((selectedCase, index) => <article key={selectedCase.id} id={`case-${selectedCase.id}`} className="case-study" hidden={index !== caseIndex} aria-labelledby={`title-${selectedCase.id}`}>
+                  <div className="case-meta"><span>{selectedCase.organization}</span><span>{selectedCase.stage}</span></div>
+                  <h3 id={`title-${selectedCase.id}`}>{selectedCase.title}</h3>
+                  <p className="case-question">{selectedCase.question}</p>
+                  <ol className="system-flow" aria-label="Engineering workflow">
+                    {selectedCase.flow.map((step, i) => <li key={step.title}><span>{String(i + 1).padStart(2, "0")}</span><strong>{step.title}</strong><p>{step.detail}</p></li>)}
+                  </ol>
+                  <div className="case-body">
+                    <div><h4>Engineering decisions</h4><ul>{selectedCase.approach.map(item => <li key={item}>{item}</li>)}</ul></div>
+                    <div className="case-outcome"><h4>Outcome & scope</h4><p>{selectedCase.result}</p><p className="case-credit">{selectedCase.scope}</p></div>
+                  </div>
+                  <Tags items={selectedCase.stack} />
+                  <a className="case-permalink" href={`#case-${selectedCase.id}`}>Link to this case study ↗</a>
+                </article>)}
+              </div>
+              <details className="work-scope-details">
+                <summary>Explore the wider engineering scope <span aria-hidden="true">+</span></summary>
               <div className="work-records">
                 {currentWork.map((item, index) => (
                   <article className="work-record" key={item.title}>
@@ -366,6 +407,7 @@ export default function Portfolio() {
                   </article>
                 ))}
               </div>
+              </details>
             </section>
 
             <section
@@ -375,7 +417,7 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="02"
-                title="Career, in full"
+                title="Experience"
                 description="Engineering, teaching and the communities where I started building."
               />
               <div
@@ -471,6 +513,11 @@ export default function Portfolio() {
                 title="Projects & independent work"
                 description="Applications, platforms, experiments and competition builds. Open a record for the implementation details."
               />
+              <div className="project-search search-field">
+                <label htmlFor="project-search">SEARCH PROJECTS</label>
+                <input id="project-search" type="search" placeholder="Name, technology or problem…"
+                  value={projectQuery} onChange={event => setProjectQuery(event.target.value)} />
+              </div>
               <div
                 className="filter-row"
                 role="group"
@@ -480,7 +527,7 @@ export default function Portfolio() {
                   "All projects",
                   "AI applications",
                   "Backend & platforms",
-                  "ML & vision",
+                  "ML, vision & geometry",
                 ].map((filter) => (
                   <button
                     type="button"
@@ -495,15 +542,16 @@ export default function Portfolio() {
               <p className="result-count" role="status">
                 Showing {filteredProjects.length} of {projects.length} projects
               </p>
+              {filteredProjects.length === 0 && <div className="empty-state"><p>No projects match these filters.</p><button type="button" onClick={() => { setProjectQuery(""); setProjectFilter("All projects"); document.getElementById("project-search")?.focus(); }}>Clear filters</button></div>}
               <div className="project-grid">
                 {filteredProjects.map((project) => (
                   <article className="project-record" key={project.name}>
                     <div className="project-category">
                       <span>{project.type}</span>
-                      <span aria-hidden="true">↗</span>
                     </div>
                     <h3>{project.name}</h3>
                     <p className="project-summary">{project.summary}</p>
+                    {projectCases[project.name] && <a className="project-case-link" href={`#case-${projectCases[project.name]}`}>Read the engineering case study ↑</a>}
                     <Tags items={project.stack} />
                     <details className="record-details">
                       <summary>
@@ -539,6 +587,16 @@ export default function Portfolio() {
                   </article>
                 ))}
               </div>
+              <details className="research-archive record-details">
+                <summary>More prototypes, research & delivery work<span aria-hidden="true">+</span></summary>
+                <ul className="detail-list">
+                  <li><strong>AIoverflow Admin:</strong> a visual administration scaffold; authentication and persistence were planned.</li>
+                  <li><strong>Social automation:</strong> a TypeScript dry-run scaffold with live publishing adapters disabled.</li>
+                  <li><strong>Donor research tools:</strong> a read-only research library and fixture-based outreach-draft compiler, developed for research and review.</li>
+                  <li><strong>Client and personal websites:</strong> RKR and Nithin portfolio delivery, alongside the websites below. The owner’s academic and career credentials remain their own.</li>
+                  <li><strong>Training materials:</strong> coding exercises, learning resources and document-generation tools, building on earlier Python and ML teaching.</li>
+                </ul>
+              </details>
               <div className="web-projects-section">
                 <div className="web-projects-heading">
                   <h3>Websites & explorations</h3>
@@ -561,7 +619,7 @@ export default function Portfolio() {
                         <ExternalLink
                           href={project.url}
                           className="web-project-link"
-                          label={`View ${project.name} ${project.kind.toLowerCase()}`}
+                          label={`Visit ${project.name} ${project.kind.toLowerCase()}`}
                         >
                           <span>Visit</span>
                         </ExternalLink>
@@ -604,7 +662,7 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="05"
-                title="Learning, on record"
+                title="Certifications & learning"
                 description="Course completions, virtual programs and event credentials, with their original verification links."
               />
               <div className="credential-controls">
@@ -710,6 +768,7 @@ export default function Portfolio() {
                       onClick={() => {
                         setCertificateQuery("");
                         setCertificateIssuer("All issuers");
+                        document.getElementById("certificate-search")?.focus();
                       }}
                     >
                       Clear filters
@@ -726,7 +785,7 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="06"
-                title="Built under pressure"
+                title="Awards & hackathons"
                 description="Hackathons and competitions across AI, healthcare, finance, mobility and enterprise software."
               />
               <div className="award-list">
@@ -765,7 +824,7 @@ export default function Portfolio() {
                 </span>
                 <div>
                   <p className="education-period">
-                    {education.period} · {education.location}
+                    {education.location}
                   </p>
                   <h3>{education.institution}</h3>
                   <p className="education-degree">{education.degree}</p>
@@ -833,13 +892,13 @@ export default function Portfolio() {
                 <p>LET’S HAVE A CONVERSATION</p>
               </div>
               <h2 id="contact-heading">
-                Good work starts
+                Let’s talk about
                 <br />
-                with a hello<span>.</span>
+                what you’re building<span>.</span>
               </h2>
               <p className="contact-description">
-                For AI engineering, product development and backend work—or an
-                interesting problem worth discussing.
+                For forward deployed engineering, applied AI, backend systems
+                and product development.
               </p>
               <div className="contact-email-row">
                 <a href={`mailto:${profile.email}`} className="email-link">
@@ -849,7 +908,7 @@ export default function Portfolio() {
                 <button
                   type="button"
                   onClick={copyEmail}
-                  aria-label="Copy Chethan’s email address"
+                  aria-label="Copy email address for Chethan Reddy"
                   className="copy-button"
                 >
                   Copy email
@@ -865,7 +924,7 @@ export default function Portfolio() {
                 <ExternalLink href={`${basePath}/CV.pdf`}>Résumé</ExternalLink>
               </div>
               <p className="contact-location">
-                Based in India. Working remotely.
+                Based in India · Open to international remote roles and relocation with employer visa sponsorship.
               </p>
             </section>
           </div>
@@ -875,7 +934,7 @@ export default function Portfolio() {
         <a href="#home" className="footer-name">
           Chethan Reddy<span>↗</span>
         </a>
-        <p>© {new Date().getFullYear()} · An ongoing body of work.</p>
+        <p>© {new Date().getFullYear()} · Updated October 2026.</p>
         <a href="#home" className="back-top">
           Back to top ↑
         </a>

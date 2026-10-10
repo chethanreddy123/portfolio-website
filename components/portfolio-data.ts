@@ -15,7 +15,7 @@ export type CareerEntry = {
 export type ProjectCategory =
   | "AI applications"
   | "Backend & platforms"
-  | "ML & vision";
+  | "ML, vision & geometry";
 export type Project = {
   name: string;
   category: ProjectCategory;
@@ -53,101 +53,144 @@ export const profile = {
 
 export const currentWork = [
   {
-    title: "Customer delivery & product engineering",
-    text: "Own requirements and delivery across 20+ enterprise customers. Translate customer conversations into product changes, work through implementation details and support adoption after release.",
-    tags: ["Requirements", "Product engineering", "Customer success"],
+    "title": "Production AI, from research to release",
+    "text": "Core engineer for complex-table extraction shipped across three services and three regions. Benchmarked OCR and vision-language approaches, built the model-service APIs, and connected model output back to source coordinates.",
+    "tags": [
+      "Python APIs",
+      "OCR + VLMs",
+      "Model integration"
+    ]
   },
   {
-    title: "AI models & integration",
-    text: "Integrate vision-language models, including Qwen and Zhipu, with prompt and JSON-response handling. Work on the practical boundaries between model output, application logic and dependable product behavior.",
-    tags: ["Vision-language models", "Prompt design", "Structured outputs"],
+    "title": "Evaluation before a model change",
+    "text": "Built an internal LLM/VLM evaluation dashboard spanning eight providers and 25 models, with field-level comparison, consistency checks and cost visibility. Built API regressions across 70 endpoints with contract checks, cleanup and region-aware CI.",
+    "tags": [
+      "Model evaluation",
+      "Regression testing",
+      "GitHub Actions"
+    ]
   },
   {
-    title: "Backend reliability & observability",
-    text: "Build activity metrics and OpenTelemetry tracing, bounded timeouts for LLM-response mapping, and separate database read/write connection pools. Make failure modes easier to understand and handle.",
-    tags: ["OpenTelemetry", "Timeouts", "Database connections"],
+    "title": "Backend systems that can be investigated",
+    "text": "Co-developed an event-driven document-processing migration with queues, retry handling, dead-letter routing and idempotency. Added distributed tracing and separated database read/write traffic across six or more services.",
+    "tags": [
+      "RabbitMQ",
+      "OpenTelemetry",
+      "Database design"
+    ]
   },
   {
-    title: "Document understanding & automation",
-    text: "Normalize OCR schemas and bounding boxes, handle complex table translation and build configurable template-matching thresholds. Document processing is one application of my broader AI and backend work.",
-    tags: ["Computer vision", "OCR", "Configuration APIs"],
+    "title": "Customer migrations and incident recovery",
+    "text": "Own requirements and engineering delivery for 20+ enterprise customers. Build migration plans with baselines, rollback procedures and export checks; investigate production failures through reproducible cases, data comparisons and root-cause analysis.",
+    "tags": [
+      "Enterprise delivery",
+      "Migrations",
+      "Production debugging"
+    ]
   },
   {
-    title: "QA & release quality",
-    text: "Set up QA automation around customer requirements and product workflows. Follow edge cases through engineering, testing and customer feedback instead of stopping when a feature is built.",
-    tags: ["QA automation", "Regression checks", "Production feedback"],
-  },
+    "title": "AI beyond document processing",
+    "text": "At AIoverflow I build software for clinical documentation, business operations, audit workflows and career tools. The recurring engineering problems are streaming, access control, data integrity, recovery and useful human review.",
+    "tags": [
+      "Applied AI",
+      "Full-stack products",
+      "Workflow design"
+    ]
+  }
 ];
 
 export const career: CareerEntry[] = [
   {
-    company: "Staple AI",
-    role: "AI Forward Deployed Engineer · SDE-2",
-    period: "May 2024 — Present",
-    location: "Singapore · Remote from India",
-    group: "Engineering",
-    summary:
-      "End-to-end AI and product delivery across 20+ enterprise customers, spanning requirements, engineering, customer success and QA automation.",
-    details: [
-      "Lead development of complex AI-driven features, from architectural planning and zero-shot LLMOps workflows to debugging and performance optimization.",
-      "Build vision-language model integrations, OCR normalization, complex document handling and configurable template-matching behavior.",
-      "Improve reliability with response timeouts, separate database read/write pools, activity metrics and OpenTelemetry tracing.",
-      "Contribute to peer code reviews, mentor junior engineers and participate in technical design discussions.",
-      "Earlier scanning-team work included detecting stamps, logos and signatures on a platform processing 100,000 documents per month across a wider 50+ customer base.",
-      "Use AWS, Kubernetes, OCR and LLM services alongside model integration and prompt optimization.",
+    "company": "Staple AI",
+    "role": "Forward Deployed Engineer (FDE-2)",
+    "period": "At Staple · May 2024 — Present",
+    "location": "Singapore · Hybrid",
+    "group": "Engineering",
+    "current": true,
+    "context": "Enterprise AI · Product engineering · Customer delivery",
+    "summary": "Own engineering delivery across 20+ enterprise customers, from requirements and onsite investigation to product changes, QA and production support.",
+    "progression": [
+      {
+        "title": "Forward Deployed Engineer · FDE-2",
+        "period": "September 2026 — Present"
+      },
+      {
+        "title": "AI Software Engineer · SDE-2",
+        "period": "From May 2025 · Earlier role"
+      },
+      {
+        "title": "AI Software Engineer · SDE-1",
+        "period": "From May 2024 · Earlier role"
+      }
     ],
-    stack: [
+    "details": [
+      "As an FDE, connect customer requirements, production investigation and implementation. Write reproducible cases, design fixes and work through migration and release verification.",
+      "As a core product engineer, took complex-table extraction from OCR/VLM research to production across three services and three regions, building model APIs, templates and coordinate mapping.",
+      "Built an eight-provider, 25-model evaluation dashboard and a regression platform covering 70 gateway API endpoints. Moved monitor scheduling to GitHub Actions while retaining Postman CLI for execution.",
+      "Co-developed asynchronous document processing with RabbitMQ, dead-letter queues, idempotency and compatibility fixtures. This migration was verified through a staging release in the retained work record.",
+      "Delivered enterprise model migrations with baseline snapshots, rate-controlled writes, post-write verification and export-parity checks.",
+      "Built China-region OCR integrations, multilingual normalization, strict/fuzzy vendor matching and configurable model routing. Added tracing, timeout boundaries and separate database read/write pools.",
+      "Wrote production root-cause analyses, engineering runbooks and shared QA/migration procedures; reviewed code and mentored junior engineers.",
+      "Built a shared Python library for telemetry, database and S3 integration; compared document-AI products on a shared sample to inform product recommendations."
+    ],
+    "stack": [
       "Python",
-      "LLMs & RAG",
-      "Computer vision",
+      "LLMs / VLMs",
+      "FastAPI",
       "AWS",
       "Kubernetes",
-      "QA automation",
-    ],
-    current: true,
-    context: "Customer engineering · Product delivery · AI systems",
-    progression: [
-      {
-        title: "AI Software Engineer · SDE-2",
-        period: "May 2025 — Present",
-      },
-      {
-        title: "AI Software Engineer · SDE-1",
-        period: "May 2024 — Jun 2025",
-      },
-    ],
+      "RabbitMQ",
+      "OpenTelemetry",
+      "API regression"
+    ]
   },
   {
-    company: "Alvarez & Marsal",
-    role: "AI Software Engineer · Client engagement",
-    period: "Dec 2023 — Jun 2024",
-    location: "United States · Remote",
-    group: "Engineering",
-    summary:
-      "Worked on Diligence GPT, applying language models and retrieval-augmented generation to a diligence application.",
-    details: [
-      "Engagement facilitated by Dotnitron Technologies; this is the client assignment associated with that role.",
-      "Designed RAG architecture and integrated AI, machine-learning and deep-learning capabilities into application workflows.",
-      "Worked with cross-functional teams on the architecture and Python backend for intelligent diligence tools.",
+    "company": "AIoverflow",
+    "role": "Founder & Applied AI Engineer",
+    "period": "Independent product work",
+    "location": "India · Remote collaboration",
+    "group": "Engineering",
+    "context": "Products · Client delivery · Collaborative engineering",
+    "summary": "Build applied-AI applications and the operational software around them: requirements, architecture, implementation, testing and deployment.",
+    "details": [
+      "Built and released a salon operations platform connecting bookings, inventory, payroll and finance, with a guarded natural-language SQL assistant.",
+      "Built the original clinical transcription application, including streaming, reconnect handling and structured drafts for clinician review. Later ScribeDesk work focused on authentication, migrations and deployment integration within a collaborative codebase.",
+      "Built Applywise’s profile and résumé workflow with review/correction, resumable generation and approval bound to the selected artifact.",
+      "Developed AuditVault’s controlled document workflows and MarinePulse’s scoring/reporting tools. Contributed billing UX, authentication and deployment to the collaborative SellOS project.",
+      "Work with Jacqueline Ekumba on business and domain requirements, and with Purushoth and Subhanu on collaborative products. Individual contributions are identified with each project.",
+      "Use AI coding agents with explicit requirements, code review, tests and acceptance checks throughout development."
     ],
-    stack: ["Python", "RAG", "LLMs", "AI architecture"],
-    context: "Diligence GPT · Through Dotnitron Technologies",
+    "stack": [
+      "Python",
+      "TypeScript",
+      "Next.js",
+      "Go",
+      "PostgreSQL",
+      "FastAPI",
+      "AI workflows"
+    ]
   },
   {
-    company: "Dotnitron Technologies",
-    role: "AI Software Engineer",
-    period: "Dec 2023 — May 2024",
-    location: "Delhi, India · Remote",
-    group: "Engineering",
-    summary:
-      "Designed AI solutions and built Python backend services, including the Alvarez & Marsal engagement.",
-    details: [
-      "Led cross-functional collaboration to design, develop and implement AI-driven solutions.",
-      "Built services using Django, FastAPI and ArangoDB, integrating AI libraries with product workflows.",
-      "Applied LangChain, OpenAI and retrieval-augmented generation to application development.",
-      "Contributed code reviews, debugging and tests to improve software quality.",
+    "company": "Dotnitron Technologies",
+    "role": "AI Software Engineer",
+    "period": "Dec 2023 — May 2024",
+    "location": "USA · Remote",
+    "group": "Engineering",
+    "context": "Alvarez & Marsal engagement · Diligence GPT",
+    "summary": "Led Python backend development and RAG architecture for a diligence application, working with cross-functional engineering teams.",
+    "details": [
+      "Built with Django, FastAPI and ArangoDB; integrated LangChain and OpenAI into retrieval and application workflows.",
+      "Designed AI-backed services, reviewed code, debugged integrations and tested model/backend behavior.",
+      "The Alvarez & Marsal client engagement continued through June 2024; it is part of this assignment, rather than a separate full-time employer."
     ],
-    stack: ["Python", "Django", "FastAPI", "ArangoDB", "LangChain", "OpenAI"],
+    "stack": [
+      "Python",
+      "Django",
+      "FastAPI",
+      "ArangoDB",
+      "LangChain",
+      "RAG"
+    ]
   },
   {
     company: "Bajaj Finserv Health",
@@ -158,9 +201,9 @@ export const career: CareerEntry[] = [
     summary:
       "Built recommendation systems and medical-document analytics with the InSightRX data team.",
     details: [
-      "Developed lab-test recommendation workflows that improved operational efficiency by 30%.",
+      "Developed lab-test recommendation workflows that achieved a reported 30% operational-efficiency improvement in the project.",
       "Used OCR, named-entity recognition, LLMs and YOLO for document and image analysis.",
-      "Optimized Elasticsearch and SQL retrieval, improving retrieval speed by 80%.",
+      "Optimized Elasticsearch and SQL retrieval, with an 80% retrieval-speed improvement recorded in the original project résumé.",
     ],
     stack: ["Python", "OCR", "NER", "YOLO", "Elasticsearch", "SQL"],
     context: "InSightRX · Data team",
@@ -188,7 +231,7 @@ export const career: CareerEntry[] = [
   },
   {
     company: "Smart Diet Planner",
-    role: "Machine Learning Researcher",
+    role: "Machine Learning Researcher · Intern",
     period: "Aug 2022 — Apr 2023",
     location: "India · Research & development",
     group: "Engineering",
@@ -417,10 +460,10 @@ export const projects: Project[] = [
       "An end-to-end platform for staff operations, payroll, sales and the day-to-day running of a service business.",
     details: [
       "Built booking, inventory, storefront, staff permissions, HR, payroll and finance workflows with Next.js, TypeScript, PostgreSQL and Prisma, including commissions, loans, leave deductions, payslips and budget-versus-actual reporting.",
-      "Connected the business website, SEO and web analytics with the operations platform.",
-      "Implemented a read-only text-to-SQL assistant over 17 allowlisted tables with tokenized SQL validation, read-only database transactions, statement limits and deterministic financial outputs.",
-      "Cached generated SQL while rerunning queries for fresh data. A recorded local repeat-query check improved from 1,775 ms to 8 ms.",
-      "Built consent-aware messaging infrastructure with signed webhooks, opt-out handling and idempotent send claims.",
+      "Released the public site and ERP with recorded unit, isolated-database and HTTP checks. Business/domain collaboration included Jacqueline Ekumba.",
+      "Implemented text-to-SQL over 17 allowlisted tables with tokenized query validation, read-only database transactions, statement timeouts and bounded result sets.",
+      "Reduced measured blog-listing HTML from 487,198 to 126,605 bytes through server-side pagination and selective queries. This is a payload measurement, not a latency or conversion claim.",
+      "Implemented messaging groundwork with signed webhooks and idempotency; automated customer reminders are separate from the current released ERP workflow.",
     ],
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Text-to-SQL"],
   },
@@ -446,7 +489,7 @@ export const projects: Project[] = [
     details: [
       "Contributed the initial application, billing interface, authentication and deployment.",
       "The shared platform includes batch inventory, transaction locking and reporting using Next.js, Go and PostgreSQL.",
-      "Built collaboratively; backend and administration work also includes contributions from Subhanu.",
+      "Built collaboratively with Subhanu, who contributed substantial backend, inventory and administration work. My scope includes billing UX, super-admin authentication, application fixes and deployment.",
     ],
     stack: ["Next.js", "Go", "PostgreSQL", "Multi-tenancy", "Billing"],
   },
@@ -470,7 +513,7 @@ export const projects: Project[] = [
       "A timetable planner that selects course slots around faculty, course and time preferences.",
     details: [
       "Built a scheduling approach using graph traversal across more than 2,000 course options.",
-      "Used by more than 10,000 VIT students.",
+      "The original project record reports use by more than 10,000 VIT students.",
     ],
     stack: ["Python", "Graph algorithms", "Scheduling"],
     link: "https://github.com/chethanreddy123/FFSC-Planner-Python",
@@ -479,13 +522,13 @@ export const projects: Project[] = [
   {
     name: "Clinical Scribe / ScribeDesk",
     category: "AI applications",
-    type: "Clinical documentation · Collaborative extension",
+    type: "Clinical documentation MVP · Collaborative extension",
     summary:
-      "A clinical documentation application connecting streaming transcription with editable notes, letters, encounter chat and clinician sign-off.",
+      "Streaming transcription and editable encounter drafts, with a clinician-review and attestation workflow.",
     details: [
-      "Built the clinical scribe with FastAPI, MongoDB, Next.js, TypeScript, Deepgram streaming transcription and OpenAI. Generated editable notes, summaries, letters and PDF exports, with encounter-aware chat and clinician sign-off.",
+      "Built the original clinical documentation MVP with FastAPI, MongoDB, Next.js, TypeScript, Deepgram streaming transcription and OpenAI. Generated editable draft notes, summaries, letters and PDF exports, with encounter-aware chat and clinician sign-off.",
       "Improved recording resilience, restored transcript history, handled reconnects, fixed concurrent-session races and cleaned up processors.",
-      "In the subsequent collaborative PostgreSQL/Redis-based ScribeDesk implementation, contributed authentication-cookie fixes, startup migrations, container-worker configuration and monorepo deployment integration.",
+      "Purushoth was the main implementer of the later PostgreSQL/Redis-based ScribeDesk. My contributions covered authentication-cookie fixes, startup migrations, worker configuration and deployment integration.",
     ],
     stack: [
       "FastAPI",
@@ -505,7 +548,7 @@ export const projects: Project[] = [
     details: [
       "Built a Go, Next.js and PostgreSQL platform with an eight-stage audit lifecycle, mutation logs and per-vessel access controls.",
       "Implemented resumable multipart uploads and signed downloads using R2/S3-compatible storage.",
-      "Fixed cross-vessel RBAC, added a same-origin mutation proxy and developed spreadsheet-style inline operations.",
+      "Implemented vessel-scoped access controls, a same-origin mutation proxy and spreadsheet-style inline operations.",
     ],
     stack: ["Go", "Next.js", "PostgreSQL", "RBAC", "R2 / S3"],
   },
@@ -518,7 +561,7 @@ export const projects: Project[] = [
     details: [
       "Built backend routes for content generation and classroom insights, using multiple LangChain agents.",
       "Developed a workflow for converting PDF and handwritten notes into digital learning material.",
-      "Instructor analytics achieved more than 90% accuracy in the project evaluation.",
+      "Connected classroom insights, content generation and note digitization within the instructor workflow.",
     ],
     stack: ["Python", "FastAPI", "MongoDB", "LangChain", "LLMs"],
     image: "/eduaid.png",
@@ -551,7 +594,7 @@ export const projects: Project[] = [
     name: "Supplier Performance",
     link: "https://github.com/chethanreddy123/SirionLab-Backend",
     linkLabel: "View source",
-    category: "ML & vision",
+    category: "ML, vision & geometry",
     type: "Supplier analytics",
     summary:
       "Scoring and recommendation algorithms for comparing suppliers against specific business needs.",
@@ -565,13 +608,13 @@ export const projects: Project[] = [
     name: "Keyword Recommendation Engine",
     link: "https://github.com/chethanreddy123/BackEndFastAPI",
     linkLabel: "View source",
-    category: "ML & vision",
+    category: "ML, vision & geometry",
     type: "Search & recommendation",
     summary:
       "A search-improvement system combining machine-learning classification with fuzzy keyword matching.",
     details: [
       "Built autocomplete, correction and keyword recommendation for an insurance search use case using a linear support vector machine.",
-      "Combined Levenshtein distance, Fast Autocomplete and directed acyclic graphs, with search responses below 800 ms.",
+      "Combined Levenshtein distance, Fast Autocomplete and directed acyclic graphs; the original project measurement reports responses below 800 ms.",
     ],
     stack: ["Python", "Linear SVM", "Fuzzy matching"],
   },
@@ -579,7 +622,7 @@ export const projects: Project[] = [
     name: "WeDio",
     link: "https://github.com/chethanreddy123/HoneyWell-WeHack---Video-Smoothness",
     linkLabel: "View source",
-    category: "ML & vision",
+    category: "ML, vision & geometry",
     type: "CCTV video analytics",
     summary:
       "Frame-by-frame detection of disruptions in CCTV footage, including blur, black screens and freezing.",
@@ -602,6 +645,131 @@ export const projects: Project[] = [
     stack: ["Python", "FastAPI", "Pillow", "FPDF"],
     link: "https://github.com/chethanreddy123/PhotoBook-Backend",
     linkLabel: "View source",
+  },
+  {
+    "name": "AIoverflow publishing",
+    "category": "AI applications",
+    "type": "Content infrastructure · Quality controls",
+    "summary": "Source-grounded article generation with validation and a separate automated editorial review.",
+    "details": [
+      "Built schema checks, citation/source validation, duplicate blocking, retries and idempotency around generated drafts.",
+      "A rejected editorial review blocks publication. Workflow demos are simulations with explicit human approval steps.",
+      "Validated the September publishing changes with mocked generation and editorial-review calls."
+    ],
+    "stack": [
+      "Structured outputs",
+      "Source validation",
+      "TypeScript",
+      "Editorial review"
+    ],
+    "link": "https://aioverflow.tech/",
+    "linkLabel": "Visit AIoverflow"
+  },
+  {
+    "name": "3D Cutz / KH249",
+    "category": "Backend & platforms",
+    "type": "Related client booking implementations",
+    "summary": "Booking and service-management workflows, adapted for separate businesses.",
+    "details": [
+      "Implemented conflict checks, service administration and hashed management links within related booking codebases.",
+      "Adapted shared booking foundations for two businesses, with historical notification smoke checks."
+    ],
+    "stack": [
+      "Booking workflows",
+      "Access control",
+      "Full-stack delivery"
+    ]
+  },
+  {
+    "name": "WrapStudio",
+    "category": "ML, vision & geometry",
+    "type": "Collaborative product · Local 3D prototype",
+    "summary": "Exploring bike-wrap configuration, preview and export workflows.",
+    "details": [
+      "Directed local 3D requirements and iteration: model selection, camera framing, draft recovery and export behavior.",
+      "Subhanu authored the tracked photo-mask baseline. I directed the later local 3D prototype through requirements, iteration and acceptance review."
+    ],
+    "stack": [
+      "3D interfaces",
+      "Product prototyping",
+      "Acceptance review"
+    ]
+  },
+  {
+    "name": "Agent workflow tooling",
+    "category": "Backend & platforms",
+    "type": "Local engineering tools",
+    "summary": "Structured task intake, handoffs, review boundaries and acceptance checks for AI-assisted development.",
+    "details": [
+      "Built local workflow artifacts and automation around engineering task execution and review.",
+      "Used locally for task intake, engineering handoffs, review and acceptance checks."
+    ],
+    "stack": [
+      "Workflow automation",
+      "Review gates",
+      "Developer tooling"
+    ]
+  },
+  {
+    "name": "API load-testing tool",
+    "category": "Backend & platforms",
+    "type": "Developer utility",
+    "summary": "A streaming interface for controlled API load experiments.",
+    "details": [
+      "Built Streamlit/SSE reporting with bounded workers, fixed-rate scheduling, error handling and CSV output.",
+      "Supports controlled experiments through configurable worker bounds, scheduling and streamed results."
+    ],
+    "stack": [
+      "Python",
+      "Streamlit",
+      "SSE",
+      "Concurrency"
+    ]
+  },
+  {
+    "name": "SuryaScope",
+    "category": "ML, vision & geometry",
+    "type": "Solar planning prototype",
+    "summary": "A geometry and layout experiment for exploring solar-panel placement.",
+    "details": [
+      "Built interactive solar-layout and geometry behavior.",
+      "Local prototype for exploring panel geometry and placement."
+    ],
+    "stack": [
+      "Geometry",
+      "Simulation",
+      "Interactive UI"
+    ]
+  },
+  {
+    "name": "Document-to-presentation",
+    "category": "AI applications",
+    "type": "Local prototype",
+    "summary": "Exploring a structured workflow from source documents to presentation artifacts.",
+    "details": [
+      "Worked on document ingestion, content structuring and presentation generation.",
+      "Local prototype covering document ingestion, content structuring and presentation generation."
+    ],
+    "stack": [
+      "Document processing",
+      "Generation",
+      "Artifact review"
+    ]
+  },
+  {
+    "name": "JobPilot",
+    "category": "AI applications",
+    "type": "Earlier career-tools prototype",
+    "summary": "An earlier job-discovery and automation exploration that preceded Applywise.",
+    "details": [
+      "Explored profile and job workflows before the later application workspace.",
+      "An earlier prototype exploring profile ingestion, job discovery and application workflows."
+    ],
+    "stack": [
+      "Automation",
+      "Job discovery",
+      "Prototyping"
+    ]
   },
 ];
 
@@ -645,6 +813,9 @@ export const skillGroups = [
       "Kubernetes",
       "R2 / S3",
       "OpenTelemetry & observability",
+      "RabbitMQ / Amazon MQ",
+      "Temporal",
+      "GitHub Actions",
     ],
   },
   {
@@ -801,18 +972,18 @@ export const certificates: Certificate[] = [
 export const awards: Award[] = [
   {
     name: "Bitget U-30 Hackathon",
-    distinction: "Most Viable Project",
-    work: "Recognized in the Most Viable Project category.",
+    distinction: "Winner · 1st Prize",
+    work: "Bitget U-30 Hackathon winner.",
     year: "2023",
   },
   {
-    name: "Honeywell WeHack 3.0",
-    distinction: "Winner",
+    name: "IEEE WIE VIT WeHack 3.0 · Honeywell",
+    distinction: "Winner · 1st Prize",
     work: "Video analytics for CCTV cameras.",
     year: "2022",
   },
   {
-    name: "Axis Bankathon",
+    name: "Axis Bankathon LLM 1.0",
     distinction: "1st runner-up",
     work: "An LLM-powered KRA query bot for employees.",
     year: "2023",
@@ -826,7 +997,7 @@ export const awards: Award[] = [
     url: "https://www.linkedin.com/feed/update/urn:li:activity:6948165848851169280/",
   },
   {
-    name: "Canara Bank Dacoethon",
+    name: "Canara Bank DACOE-Thon",
     distinction: "Top 5",
     work: "Placed in the top five among more than 3,000 teams.",
     year: "2024",
@@ -851,8 +1022,8 @@ export const awards: Award[] = [
     url: "https://www.linkedin.com/feed/update/urn:li:activity:6978375361222901760/",
   },
   {
-    name: "Siemens Healthineers Shift",
-    distinction: "Finalist",
+    name: "Siemens Healthineers SHIFT",
+    distinction: "Finalist · Top 10 / 3,000+",
     work: "Computer vision for X-ray analytics.",
     year: "2022",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:6999642219938791424/",
@@ -882,20 +1053,21 @@ export const awards: Award[] = [
     name: "Walmart Sparkathon",
     distinction: "Top 7",
     work: "Supplier analytics using language models.",
+    year: "2023",
   },
   {
-    name: "Honeywell Hackwell 4.0",
-    distinction: "Top 10",
-    work: "Neural-network approaches to airport taxiing.",
+    name: "JSSATEB Hackwell 3.0 · Honeywell",
+    distinction: "Top 10 / 150+ teams",
+    work: "Finalist placement in the Honeywell-powered competition.",
   },
 ];
 
 export const education = {
   institution: "Vellore Institute of Technology",
-  degree: "Bachelor of Engineering · Electrical & Electronics Engineering",
+  degree: "Bachelor of Engineering · Computer and Electrical Engineering",
   location: "Vellore, India",
   result: "",
-  period: "2020 — 2024",
+  period: "",
 };
 
 export const webProjects = [
@@ -904,7 +1076,7 @@ export const webProjects = [
     kind: "Education website",
     stack: "React · Vite · Static rendering",
     description:
-      "A 15-page educational-program site with page metadata, structured data, resource downloads and lead integrations.",
+      "Delivered the September website redesign, metadata, static rendering and lead-flow improvements. Earlier and later site development includes substantial work by Anudeep.",
     url: "https://brahmly.in",
   },
   {
@@ -912,7 +1084,7 @@ export const webProjects = [
     kind: "Business website",
     stack: "SEO · Vercel · Resend",
     description:
-      "A responsive advisory website with dedicated service pages, structured data, sitemap and a contact workflow.",
+      "Built the advisory website and contact workflow with business collaboration from Jacqueline Ekumba; related brochure work includes Subhanu’s contribution.",
     url: "",
   },
   {
