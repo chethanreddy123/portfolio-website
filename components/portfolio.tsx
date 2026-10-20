@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { caseStudies } from "./case-studies";
+import { rolePathways } from "./role-pathways";
 import {
   type CareerEntry,
   awards,
@@ -135,7 +136,9 @@ function CareerHeading({ item }: { item: CareerEntry }) {
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("work");
-  const [caseIndex, setCaseIndex] = useState(0);
+  const [caseIndex, setCaseIndex] = useState(() => caseStudies.findIndex(item => item.id === "enterprise"));
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [roleCopyStatus, setRoleCopyStatus] = useState("");
   const [projectQuery, setProjectQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("All projects");
   const [careerFilter, setCareerFilter] = useState("All experience");
@@ -154,6 +157,25 @@ export default function Portfolio() {
           document.getElementById(`case-${caseStudies[index].id}`)?.scrollIntoView({ block: "start" })
         ));
       } else {
+        const careerEntry = career.find(item => item.id && window.location.hash === `#career-${item.id}`);
+        if (careerEntry) {
+          setCareerFilter("All experience");
+          setActiveSection("career");
+          requestAnimationFrame(() => requestAnimationFrame(() =>
+            document.getElementById(`career-${careerEntry.id}`)?.scrollIntoView({ block: "start" })
+          ));
+          return;
+        }
+        const pathwayIndex = rolePathways.findIndex(item => window.location.hash === `#role-${item.id}`);
+        if (pathwayIndex >= 0) {
+          setRoleIndex(pathwayIndex);
+          setCaseIndex(caseStudies.findIndex(item => item.id === rolePathways[pathwayIndex].firstCase));
+          setActiveSection("work");
+          requestAnimationFrame(() => requestAnimationFrame(() =>
+            document.getElementById("role-overview")?.scrollIntoView({ block: "start" })
+          ));
+          return;
+        }
         const section = sections.find(([id]) => window.location.hash === `#${id}`);
         if (section) setActiveSection(section[0]);
       }
@@ -211,6 +233,35 @@ export default function Portfolio() {
     const timeout = window.setTimeout(() => setCopyStatus(""), 4000);
     return () => window.clearTimeout(timeout);
   }, [copyStatus]);
+
+  useEffect(() => {
+    if (!roleCopyStatus) return;
+    const timeout = window.setTimeout(() => setRoleCopyStatus(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [roleCopyStatus]);
+
+  const selectedRole = rolePathways[roleIndex];
+
+  function selectRole(index: number) {
+    setRoleIndex(index);
+    setCaseIndex(caseStudies.findIndex(item => item.id === rolePathways[index].firstCase));
+    setRoleCopyStatus("");
+    window.history.replaceState(null, "", `#role-${rolePathways[index].id}`);
+  }
+
+  async function copyRoleLink() {
+    const url = new URL(window.location.href);
+    url.hash = `role-${selectedRole.id}`;
+    window.history.replaceState(null, "", url.href);
+    setRoleCopyStatus("This view’s link is in the address bar if clipboard access is unavailable.");
+    try {
+      await navigator.clipboard.writeText(url.href);
+      setRoleCopyStatus(`${selectedRole.label} link copied.`);
+    } catch {
+      window.history.replaceState(null, "", url.href);
+      setRoleCopyStatus("Copy this view’s link from the address bar.");
+    }
+  }
 
   const filteredProjects = useMemo(
     () =>
@@ -309,11 +360,11 @@ export default function Portfolio() {
               Forward Deployed Engineer, Level 2<span>at Staple AI</span>
             </p>
             <p className="intro-description">
-              I build AI applications and the backend systems that run them.
-              At Staple AI, I own engineering delivery for 20+ enterprise customers.
-              My work connects applied models, reliable services, QA automation
-              and customer delivery.
+              I build applied AI products and the services and interfaces behind them.
+              At Staple AI, I own engineering delivery for 20+ enterprise customers,
+              from discovery and architecture to implementation, evaluation and production support.
             </p>
+            <p className="intro-availability">Based in India · Remote opportunities with global teams</p>
             <div className="intro-links">
               <a className="solid-button" href="#work">
                 See the engineering <Arrow />
@@ -355,8 +406,8 @@ export default function Portfolio() {
               <dd>Applied AI · Backend systems</dd>
             </div>
             <div>
-              <dt>CURRENT ROLE</dt>
-              <dd>Singapore · Hybrid</dd>
+              <dt>EXPERIENCE</dt>
+              <dd>5+ years across engineering & teaching</dd>
             </div>
           </dl>
         </section>
@@ -412,6 +463,37 @@ export default function Portfolio() {
               />
               <p className="work-introduction">Six examples from my work at Staple AI: model integration,
                 evaluation, reliable backends and enterprise delivery.</p>
+              <div className="role-overview" id="role-overview">
+                <div className="role-overview-heading">
+                  <h3>Explore by role</h3>
+                  <button type="button" className="role-copy" onClick={copyRoleLink}>Copy this view’s link <Arrow diagonal /></button>
+                </div>
+                <div className="role-selector" role="group" aria-label="Explore work by role">
+                  {rolePathways.map((role, index) => (
+                    <button key={role.id} id={`role-${role.id}`} type="button"
+                      aria-pressed={roleIndex === index} aria-controls="role-evidence"
+                      onClick={() => selectRole(index)}>{role.label}</button>
+                  ))}
+                </div>
+                <div id="role-evidence" className="role-evidence" aria-labelledby="role-title">
+                  <p className="role-types">{selectedRole.roles}</p>
+                  <h4 id="role-title">{selectedRole.title}</h4>
+                  <p className="role-description">{selectedRole.description}</p>
+                  <div className="evidence-links">
+                    {selectedRole.evidence.map(item => (
+                      <a key={item.href} href={item.href}>
+                        <span className="evidence-measure">{item.measure}</span>
+                        <strong>{item.title} <Arrow diagonal /></strong>
+                        <span className="evidence-detail">{item.detail}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <p className="sr-only" role="status">Selected focus: {selectedRole.label}.</p>
+                <p className="role-copy-status" role="status">{roleCopyStatus}</p>
+                <p className="role-breadth">Earlier work also spans recommendation systems, computer vision, search and model training. <a href="#career">Explore the full career →</a></p>
+              </div>
+              <p className="case-browser-label">READ THE ENGINEERING DETAILS</p>
               <div className="case-study-browser">
                 <div className="case-selector" role="group" aria-label="Choose an engineering case study">
                   {caseStudies.map((item, index) => (
@@ -426,6 +508,7 @@ export default function Portfolio() {
                   <div className="case-meta"><span>{selectedCase.organization}</span><span>{selectedCase.stage}</span></div>
                   <h3 id={`title-${selectedCase.id}`}>{selectedCase.title}</h3>
                   <p className="case-question">{selectedCase.question}</p>
+                  <div className="case-decision"><h4>Design choice</h4><p>{selectedCase.decision}</p></div>
                   <ol className="system-flow" aria-label="Engineering workflow">
                     {selectedCase.flow.map((step, i) => <li key={step.title}><span>{String(i + 1).padStart(2, "0")}</span><strong>{step.title}</strong><p>{step.detail}</p></li>)}
                   </ol>
@@ -490,6 +573,7 @@ export default function Portfolio() {
                   <article
                     className="career-record"
                     key={`${item.company}-${item.role}`}
+                    id={item.id ? `career-${item.id}` : undefined}
                   >
                     <div className="career-meta">
                       <span>{item.period}</span>
@@ -504,9 +588,7 @@ export default function Portfolio() {
                     <div className="career-content">
                       <CareerHeading item={item} />
                       <p className="location-line">{item.location}</p>
-                      {item.context && (
-                        <p className="career-context">{item.context}</p>
-                      )}
+                      {item.context && <p className="career-context">{item.contextUrl ? <ExternalLink href={item.contextUrl}>{item.context}</ExternalLink> : item.context}</p>}
                       <p className="career-summary">{item.summary}</p>
                       {item.progression && (
                         <ul className="role-progression">
@@ -801,7 +883,7 @@ export default function Portfolio() {
                       <p>{award.work}</p>
                       {award.url && (
                         <ExternalLink href={award.url} className="award-source">
-                          View recognition
+                          {award.sourceLabel || "Event reference"}
                         </ExternalLink>
                       )}
                     </div>
@@ -866,7 +948,8 @@ export default function Portfolio() {
                   system design decision and the code that makes it work.
                 </p>
                 <p>
-                  My path started with teaching Python and working on
+                  My 5+ years of experience span technical teaching, internships
+                  and engineering roles. I started with teaching Python and working on
                   machine-learning projects. It grew into backend engineering,
                   full-stack products and enterprise AI delivery. Teaching still
                   shapes how I work: make the problem understandable, examine
@@ -899,8 +982,9 @@ export default function Portfolio() {
                 what you’re building<span>.</span>
               </h2>
               <p className="contact-description">
-                For forward deployed engineering, applied AI, backend systems
-                and product development.
+                For forward deployed engineering, applied AI products and senior
+                Python backend roles. Open to full-time remote roles and selected
+                contract projects with international teams.
               </p>
               <div className="contact-email-row">
                 <a href={`mailto:${profile.email}`} className="email-link">
@@ -926,7 +1010,7 @@ export default function Portfolio() {
                 <ExternalLink href={`${basePath}/CV.pdf`}>Résumé</ExternalLink>
               </div>
               <p className="contact-location">
-                Based in India · Open to international remote roles and relocation with employer visa sponsorship.
+                Based in India · IST (UTC+5:30) · Seeking roles that support working remotely from India.
               </p>
             </section>
           </div>
@@ -936,7 +1020,7 @@ export default function Portfolio() {
         <a href="#home" className="footer-name">
           Chethan Reddy<span>↗</span>
         </a>
-        <p>© {new Date().getFullYear()} · Updated October 2026.</p>
+        <p>© {new Date().getFullYear()} · Updated 20 October 2026.</p>
         <a href="#home" className="back-top">
           Back to top ↑
         </a>

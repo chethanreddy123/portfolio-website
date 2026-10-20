@@ -1,4 +1,5 @@
 export type CareerEntry = {
+  id?: string;
   company: string;
   logo?: string;
   companyUrl?: string;
@@ -9,6 +10,7 @@ export type CareerEntry = {
   progression?: { title: string; period: string }[];
   current?: boolean;
   context?: string;
+  contextUrl?: string;
   summary: string;
   details: string[];
   stack: string[];
@@ -42,6 +44,7 @@ export type Award = {
   work: string;
   year?: string;
   url?: string;
+  sourceLabel?: string;
 };
 
 export const profile = {
@@ -82,12 +85,12 @@ export const currentWork = [
     ]
   },
   {
-    "title": "Customer migrations and incident recovery",
-    "text": "Own requirements and engineering delivery for 20+ enterprise customers. Build migration plans with baselines, rollback procedures and export checks; investigate production failures through reproducible cases, data comparisons and root-cause analysis.",
+    "title": "Customer delivery and adoption",
+    "text": "Own requirements and engineering delivery for 20+ enterprise customers, from discovery and migration planning to verified recovery. Build dashboards and AI agents around customer telemetry to support adoption and identify usage-growth and upsell opportunities.",
     "tags": [
       "Enterprise delivery",
-      "Migrations",
-      "Production debugging"
+      "Customer telemetry",
+      "Production recovery"
     ]
   },
 ];
@@ -103,7 +106,7 @@ export const career: CareerEntry[] = [
     "group": "Engineering",
     "current": true,
     "context": "Enterprise AI · Product engineering · Customer delivery",
-    "summary": "Own engineering delivery across 20+ enterprise customers, from requirements and onsite investigation to product changes, QA and production support.",
+    "summary": "Own technical scoping, engineering delivery and adoption support for 20+ enterprise customers, connecting their requirements with product changes, QA and production reliability.",
     "progression": [
       {
         "title": "Forward Deployed Engineer · FDE-2",
@@ -119,14 +122,15 @@ export const career: CareerEntry[] = [
       }
     ],
     "details": [
-      "As an FDE, connect customer requirements, production investigation and implementation. Write reproducible cases, design fixes and work through migration and release verification.",
+      "As an FDE, translate discovery findings into implementation plans with product, engineering, customer success and QA. Write reproducible cases, design fixes and work through migration and release verification.",
+      "Build AI dashboards and agents around customer telemetry to surface usage patterns, support adoption discussions and identify upsell opportunities.",
       "As a core product engineer, took complex-table extraction from OCR/VLM research to production across three services and three regions, building model APIs, templates and coordinate mapping.",
       "Built an eight-provider, 25-model evaluation dashboard and a regression platform covering 70 gateway API endpoints. Moved monitor scheduling to GitHub Actions while retaining Postman CLI for execution.",
       "Co-developed asynchronous document processing with RabbitMQ, dead-letter queues, idempotency and compatibility fixtures. Delivered the migration through a staging release.",
       "Delivered enterprise model migrations with baseline snapshots, rate-controlled writes, post-write verification and export-parity checks.",
       "Built China-region OCR integrations, multilingual normalization, strict/fuzzy vendor matching and configurable model routing. Added tracing, timeout boundaries and separate database read/write pools.",
       "Wrote production root-cause analyses, engineering runbooks and shared QA/migration procedures; reviewed code and mentored junior engineers.",
-      "Built a shared Python library for telemetry, database and S3 integration; compared document-AI products on a shared sample to inform product recommendations."
+      "Built a shared Python library for telemetry, database and S3 integration, backed by 165 tests; compared document-AI products on a shared sample to inform product recommendations."
     ],
     "stack": [
       "Python",
@@ -141,6 +145,7 @@ export const career: CareerEntry[] = [
   },
   {
     "company": "Dotnitron Technologies",
+    id: "dotnitron",
     companyUrl: "https://www.linkedin.com/company/96054350/",
     logo: "/company-logos/dotnitron.png",
     "role": "AI Software Engineer",
@@ -148,6 +153,7 @@ export const career: CareerEntry[] = [
     "location": "USA · Remote",
     "group": "Engineering",
     "context": "Alvarez & Marsal engagement · Diligence GPT",
+    contextUrl: "https://www.alvarezandmarsal.com/insights/am-diligencegpt-platform-genai-solutions-private-equity",
     "summary": "Led Python backend development and RAG architecture for a diligence application, working with cross-functional engineering teams.",
     "details": [
       "Built with Django, FastAPI and ArangoDB; integrated LangChain and OpenAI into retrieval and application workflows.",
@@ -690,8 +696,9 @@ export const skillGroups = [
       "Solution architecture",
       "Enterprise integrations",
       "Cross-functional technical leadership",
-      "Production debugging",
-      "Technical mentoring"
+      "Production debugging & recovery",
+      "Customer telemetry & adoption",
+      "Technical mentoring & customer enablement"
     ],
     "evidence": [
       {
@@ -705,7 +712,7 @@ export const skillGroups = [
     "items": [
       "RAG & prompt engineering",
       "Multimodal LLMs / VLMs",
-      "Model evaluation",
+      "Ground-truth scoring & repeatability",
       "Structured-output validation",
       "LLMOps: evaluation, routing & observability",
       "Embeddings / vector-search evaluation"
@@ -726,7 +733,7 @@ export const skillGroups = [
     "items": [
       "Python · FastAPI · Django",
       "SQL / NoSQL data models",
-      "Asynchronous workflows",
+      "Idempotency, retries & dead-letter handling",
       "RabbitMQ / Amazon MQ",
       "Database read/write routing",
       "OpenTelemetry"
@@ -756,6 +763,10 @@ export const skillGroups = [
       {
         "label": "API regression",
         "href": "#case-regression"
+      },
+      {
+        "label": "Next.js / FastAPI evaluation platform",
+        "href": "#case-evaluation"
       }
     ]
   }
@@ -903,90 +914,103 @@ export const awards: Award[] = [
     distinction: "Winner · 1st Prize",
     work: "Bitget U-30 Hackathon winner.",
     year: "2023",
+    url: "https://www.hackerearth.com/community/challenges/hackathon/bitget-blockchain4youth-u-30-hackathon/",
   },
   {
     name: "IEEE WIE VIT WeHack 3.0 · Honeywell",
     distinction: "Winner · 1st Prize",
     work: "Video analytics for CCTV cameras.",
     year: "2022",
+    url: "https://github.com/chethanreddy123/HoneyWell-WeHack---Video-Smoothness",
+    sourceLabel: "Project source",
   },
   {
     name: "Axis Bankathon LLM 1.0",
     distinction: "1st runner-up",
     work: "An LLM-powered KRA query bot for employees.",
     year: "2023",
-    url: "https://www.linkedin.com/feed/update/urn:li:activity:7109539095059595264/",
+    url: "https://www.linkedin.com/posts/axis-bank_were-nearing-our-onsite-grand-finale-of-activity-7107637046239727616-SHuL",
   },
   {
     name: "Bajaj Finserv HackRx 3.0",
-    distinction: "1st runner-up",
+    distinction: "1st runner-up · 2nd Prize",
     work: "Search and recommendation systems.",
     year: "2022",
-    url: "https://www.linkedin.com/feed/update/urn:li:activity:6948165848851169280/",
+    url: "https://www.linkedin.com/posts/bajaj-finserv-lending_bajajfinserv-hackathon-hackrx-activity-6938739698131439616-uz9N",
   },
   {
     name: "Canara Bank DACOE-Thon",
-    distinction: "Top 5",
-    work: "Placed in the top five among more than 3,000 teams.",
+    distinction: "Top 5 finalists",
+    work: "Finalist in Canara Bank’s data and analytics competition.",
     year: "2024",
+    url: "https://www.canarabank.bank.in/documents/d/guest/press-release-canara-bank-unveils-state-of-the-art-data-and-analytics-centre-in-bengaluru-1-jan",
   },
   {
     name: "GLC–HP Hackathon",
     distinction: "Grand finalist · Top 4",
     work: "Placed in the top four among more than 3,000 teams.",
     year: "2024",
+    url: "https://www.globallearningcouncil.org/glc-hp-global-hackathon/",
   },
   {
     name: "Sirion Labs HackFest 1.0",
     distinction: "Grand finalist · Top 7",
-    work: "Supplier-rating optimization. Top seven among more than 2,000 teams.",
+    work: "Supplier-rating optimization. Top seven in a competition with more than 2,000 entries.",
     year: "2022",
+    url: "https://www.linkedin.com/posts/sirionclm_a-huge-shout-out-to-the-team-at-sirionlabs-activity-6970067041953153025-ah2i",
   },
   {
     name: "Samsung Solve for Tomorrow",
     distinction: "Top 50 · Phase 2",
-    work: "AmbuFast ambulance concept. Selected from more than 18,000 teams.",
+    work: "AmbuFast ambulance concept. Top 50 teams in a competition with more than 18,000 registrations.",
     year: "2022",
-    url: "https://www.linkedin.com/feed/update/urn:li:activity:6978375361222901760/",
+    url: "https://news.samsung.com/in/samsung-india-unveils-the-next-generation-of-indian-innovators-with-top-50-teams-of-solve-for-tomorrow-competition",
   },
   {
     name: "Siemens Healthineers SHIFT",
-    distinction: "Finalist · Top 10 / 3,000+",
+    distinction: "Finalist",
     work: "Computer vision for X-ray analytics.",
     year: "2022",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:6999642219938791424/",
+    sourceLabel: "View recognition",
   },
   {
     name: "Amadeus H4S",
     distinction: "Top 5",
     work: "A travel advisor using 3D graphs.",
+    url: "https://amadeus.com/en/blog/articles/amadeus-hackathon-sustainability-travel",
   },
   {
     name: "Make-a-thon",
     distinction: "Top 10",
     work: "AI Sight: smartphone-camera screening for eye conditions.",
+    url: "https://vittbi.com/wp-content/uploads/2024/07/July_2023_Newsletter.pdf",
   },
   {
     name: "SmartIdeathon",
     distinction: "Top 100",
     work: "An algorithm for multimodal transportation.",
     year: "2023",
+    url: "https://www.gitam.edu/press-release/gitam-invites-entries-student-entrepreneurs-and-emerging-start-ups-for-its-mega-pitchfest",
   },
   {
     name: "AI Arena 1.0",
     distinction: "Top 10",
     work: "A data-analytics platform using prompt engineering.",
+    url: "https://xathon.mettl.com/event/ai-arena-2023",
   },
   {
     name: "Walmart Sparkathon",
     distinction: "Top 7",
     work: "Supplier analytics using language models.",
     year: "2023",
+    url: "https://tech.walmart.com/content/walmart-global-tech/en_us/flagship-conferences/converge-at-walmart-2023.html",
   },
   {
     name: "JSSATEB Hackwell 3.0 · Honeywell",
     distinction: "Top 10 / 150+ teams",
     work: "Finalist placement in the Honeywell-powered competition.",
+    url: "https://jssateb.ac.in/assets/Achievements-staff-and-students-CSE-DEPARTMENT-JSSATEB.pdf",
   },
 ];
 

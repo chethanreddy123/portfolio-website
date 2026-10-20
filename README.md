@@ -4,6 +4,24 @@ Personal portfolio for Chethan Reddy, Forward Deployed Engineer (FDE-2) at Stapl
 
 [Visit the portfolio](https://chethanreddy123.github.io/portfolio-website/)
 
+## Explore by role
+
+The portfolio connects engineering skills to specific contributions, delivery stages and implementation details.
+
+- **[Forward deployed engineering](https://chethanreddy123.github.io/portfolio-website/#role-fde):** customer discovery, migrations, production investigation and verification across 20+ enterprise customers.
+- **[Applied AI](https://chethanreddy123.github.io/portfolio-website/#role-applied-ai):** Next.js/FastAPI evaluation tooling, model integration and enterprise RAG work.
+- **[Python backend engineering](https://chethanreddy123.github.io/portfolio-website/#role-backend):** service contracts, messaging, database routing, observability and testing.
+
+Each view has a copy-link control and links to the underlying case studies. The full archive remains available from every view.
+
+The [career history](https://chethanreddy123.github.io/portfolio-website/#career) separates engineering, teaching and community work. The [project archive](https://chethanreddy123.github.io/portfolio-website/#projects) includes earlier applications and links to public source where available.
+
+## Evidence and contribution scope
+
+The six Staple AI cases are public summaries of private employer work. They describe Chethan's contribution and distinguish production launches, merged changes, staging delivery and research. Employer source code, customer documents and internal evidence are not part of this repository. These summaries are not open-source project releases.
+
+Project links labeled **View source** lead to public repositories; product or company links provide context and do not imply that their code is public. Team contributions remain attributed as such. Course completions, virtual programs and event credentials retain their original verification links and are not presented collectively as professional vendor certifications.
+
 ## Local development
 
 Use Node.js 22 and npm.
@@ -27,11 +45,22 @@ Next.js writes the static site to `out/`. The base path is set at build time so 
 
 To build for a root domain or another static host, omit `NEXT_PUBLIC_BASE_PATH`. A static export is served by a static web server rather than `next start`.
 
+## Preview the static export locally
+
+Build with an empty base path, then serve the exported files with Python 3:
+
+```sh
+NEXT_PUBLIC_BASE_PATH= npm run build
+python3 -m http.server 3000 --directory out
+```
+
+Open [localhost:3000](http://localhost:3000). This previews the root-path export without adding a preview dependency. Rebuild with `NEXT_PUBLIC_BASE_PATH=/portfolio-website` before deploying to the GitHub Pages project URL; the deployment workflow supplies that value automatically.
+
 ## Deployment
 
 GitHub Actions builds and publishes the site when changes are pushed to `main`. The **Deploy portfolio to GitHub Pages** workflow can also be run manually from the repository's Actions tab.
 
-In repository **Settings → Pages**, the publishing source must be **GitHub Actions**. The workflow installs the lockfile's dependencies, runs lint, builds the static export, uploads `out/`, and deploys it to the `github-pages` environment. Deployment uses GitHub's built-in token; no hosting credentials are needed.
+In repository **Settings → Pages**, the publishing source must be **GitHub Actions**. The workflow installs the lockfile's dependencies, runs lint and TypeScript checking, builds the static export, uploads `out/`, and deploys it to the `github-pages` environment. Deployment uses GitHub's built-in token; no hosting credentials are needed.
 
 ## Editing the portfolio
 
@@ -39,7 +68,8 @@ In repository **Settings → Pages**, the publishing source must be **GitHub Act
 - `components/portfolio-data.ts` contains the career, projects, skills, credentials, awards and education records.
 - `components/portfolio.tsx` renders the archive, section navigation, filters, search and expandable implementation notes.
 - `components/case-studies.ts` contains six detailed engineering cases and their contribution/delivery scope.
-- `public/` contains static images and the current two-page general base résumé PDF.
+- `components/role-pathways.ts` maps the three role views to supporting case studies and career evidence.
+- `public/` contains static images and `CV.pdf`, the current two-page general base résumé, unchanged in this content edition.
 - `public/company-logos/` contains verified original employer/institution marks; records without a verified mark use a plain company heading.
 - `next.config.js` defines static export and deployment paths.
 - `.github/workflows/deploy.yml` controls publishing.
@@ -48,6 +78,6 @@ Keep public profile content accurate and update project links alongside project 
 
 The site needs no API keys or application backend. Navigation, deep-linked case studies, project search, project and career filters, credential search, native disclosure elements and email copying work entirely in the browser. It respects reduced-motion preferences and has keyboard-visible focus states.
 
-## Content edition — 10 October 2026
+## Content edition — 20 October 2026
 
-Six Staple AI engineering case studies, 15 career records, 15 project families, 19 credentials and 15 awards. The project archive covers six Staple engineering areas, one advisory website team contribution and eight earlier applications or competition builds. Current FDE and earlier SDE responsibilities are separated. Public summaries omit private employer/customer identifiers and distinguish releases from staging, implementation and prototypes. The source evidence and review reports remain in the private workspace.
+The edition emphasizes forward deployed engineering, applied AI and Python backend work while preserving the broader career archive: six Staple AI engineering case studies, 15 career records, 15 project families, 19 credentials and 15 awards. The project archive covers six Staple engineering areas, one advisory website team contribution and eight earlier applications or competition builds. Current FDE and earlier SDE responsibilities are separated. Public summaries omit private customer identifiers; source evidence and review reports remain in the private workspace. The existing two-page résumé download is unchanged.

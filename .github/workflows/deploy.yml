@@ -38,6 +38,9 @@ jobs:
       - name: Check code
         run: npm run lint
 
+      - name: Check TypeScript
+        run: npm run typecheck
+
       - name: Build static export
         run: npm run build
 

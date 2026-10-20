@@ -15,16 +15,16 @@ const space = Space_Grotesk({
 const siteUrl = "https://chethanreddy123.github.io/portfolio-website/";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
+  title: "Chethan Reddy — Forward Deployed, Applied AI & Backend Engineering",
   description:
-    "Chethan Reddy, Forward Deployed Engineer (FDE-2) at Staple AI. Production AI, backend systems and delivery across 20+ enterprise customers.",
+    "Chethan Reddy, FDE-2 at Staple AI. Applied AI, Python backend systems and engineering delivery for 20+ enterprise customers. Based in India, open to remote work with global teams.",
   alternates: { canonical: siteUrl },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
-    description: "AI applications, backend systems and product delivery.",
+    title: "Chethan Reddy — FDE-2, Applied AI & Backend Engineering",
+    description: "Explore enterprise delivery, model evaluation and reliable Python systems. Remote from India.",
     siteName: "Chethan Reddy",
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chethan Reddy — FDE-2 & Applied AI Engineer",
+    title: "Chethan Reddy — FDE-2, Applied AI & Backend Engineering",
     images: ["social-card.png"],
   },
   robots: { index: true, follow: true },
