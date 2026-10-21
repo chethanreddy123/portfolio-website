@@ -110,7 +110,7 @@ export const career: CareerEntry[] = [
     "progression": [
       {
         "title": "Forward Deployed Engineer · FDE-2",
-        "period": "September 2026 — Present"
+        "period": "May 2026 — Present"
       },
       {
         "title": "AI Software Engineer · SDE-2",

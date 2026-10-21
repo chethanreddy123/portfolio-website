@@ -1020,7 +1020,7 @@ export default function Portfolio() {
         <a href="#home" className="footer-name">
           Chethan Reddy<span>↗</span>
         </a>
-        <p>© {new Date().getFullYear()} · Updated 20 October 2026.</p>
+        <p>© {new Date().getFullYear()} · Updated 21 October 2026.</p>
         <a href="#home" className="back-top">
           Back to top ↑
         </a>

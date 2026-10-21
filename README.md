@@ -78,6 +78,8 @@ Keep public profile content accurate and update project links alongside project 
 
 The site needs no API keys or application backend. Navigation, deep-linked case studies, project search, project and career filters, credential search, native disclosure elements and email copying work entirely in the browser. It respects reduced-motion preferences and has keyboard-visible focus states.
 
-## Content edition — 20 October 2026
+## Content edition — 21 October 2026
+
+FDE-2 progression begins in May 2026, as confirmed by Chethan on 21 October.
 
 The edition emphasizes forward deployed engineering, applied AI and Python backend work while preserving the broader career archive: six Staple AI engineering case studies, 15 career records, 15 project families, 19 credentials and 15 awards. The project archive covers six Staple engineering areas, one advisory website team contribution and eight earlier applications or competition builds. Current FDE and earlier SDE responsibilities are separated. Public summaries omit private customer identifiers; source evidence and review reports remain in the private workspace. The existing two-page résumé download is unchanged.
