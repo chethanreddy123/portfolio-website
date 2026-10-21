@@ -667,7 +667,7 @@ export const projects: Project[] = [
     summary:
       "Frame-by-frame detection of disruptions in CCTV footage, including blur, black screens and freezing.",
     details: [
-      "Applied geometric analysis between video frames to detect five classes of video disruption in HD footage.",
+      "Built heuristic checks for blank frames, blur, lag, freezing and quality degradation; interval reports cover blank, blur and lag, with quality and freezing exposed as summary scores.",
       "Generated Excel and JSON reports with disruption start/end timestamps, type and score.",
     ],
     stack: ["Computer vision", "Video analytics", "Geometric analysis"],
@@ -681,6 +681,7 @@ export const projects: Project[] = [
     details: [
       "Built an image-processing backend with FastAPI, Pillow and FPDF.",
       "Exposed a workflow for image uploads, page-layout dimensions and generated PDF output.",
+      "Added 25 repeatable tests for PDF output, request validation, resource limits, concurrent requests and cleanup; GitHub Actions runs the suite on Python 3.11–3.13.",
     ],
     stack: ["Python", "FastAPI", "Pillow", "FPDF"],
     link: "https://github.com/chethanreddy123/PhotoBook-Backend",
@@ -701,8 +702,12 @@ export const skillGroups = [
     ],
     "evidence": [
       {
-        "label": "eduAId & KaRmA projects",
-        "href": "#projects"
+        "label": "eduAId agent workflows",
+        "href": "#project-eduaid"
+      },
+      {
+        "label": "KaRmA SQL agent",
+        "href": "#project-karma"
       },
       {
         "label": "Customer adoption work",

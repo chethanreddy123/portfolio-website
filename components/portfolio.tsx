@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { caseStudies } from "./case-studies";
 import { rolePathways } from "./role-pathways";
+import { publicArtifacts } from "./public-artifacts";
 import {
   type CareerEntry,
   awards,
@@ -36,6 +37,10 @@ const sections = [
   ["about", "About"],
   ["contact", "Contact"],
 ] as const;
+
+function projectId(name: string) {
+  return `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+}
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -157,6 +162,23 @@ export default function Portfolio() {
           document.getElementById(`case-${caseStudies[index].id}`)?.scrollIntoView({ block: "start" })
         ));
       } else {
+        const project = projects.find(item => window.location.hash === `#${projectId(item.name)}`);
+        if (project) {
+          setProjectFilter("All projects");
+          setProjectQuery("");
+          setActiveSection("projects");
+          requestAnimationFrame(() => requestAnimationFrame(() =>
+            document.getElementById(projectId(project.name))?.scrollIntoView({ block: "start" })
+          ));
+          return;
+        }
+        if (window.location.hash === "#public-code") {
+          setActiveSection("work");
+          requestAnimationFrame(() => requestAnimationFrame(() =>
+            document.getElementById("public-code")?.scrollIntoView({ block: "start" })
+          ));
+          return;
+        }
         const careerEntry = career.find(item => item.id && window.location.hash === `#career-${item.id}`);
         if (careerEntry) {
           setCareerFilter("All experience");
@@ -493,7 +515,24 @@ export default function Portfolio() {
                 <p className="role-copy-status" role="status">{roleCopyStatus}</p>
                 <p className="role-breadth">Earlier work also spans recommendation systems, computer vision, search and model training. <a href="#career">Explore the full career →</a></p>
               </div>
-              <p className="case-browser-label">READ THE ENGINEERING DETAILS</p>
+              <div className="public-artifacts" id="public-code" aria-labelledby="public-code-title">
+                <div className="public-artifacts-heading">
+                  <div><p className="case-browser-label">CODE YOU CAN INSPECT</p><h3 id="public-code-title">Run it. Read the tests. Review the tradeoffs.</h3></div>
+                  <a className="inline-link" href="#public-code">Link to public work <Arrow diagonal /></a>
+                </div>
+                <div className="public-artifact-grid">
+                  {publicArtifacts.map(artifact => <article className="public-artifact" key={artifact.id}>
+                    <p className="artifact-kind">{artifact.kind}</p>
+                    <h4>{artifact.title}</h4>
+                    <p>{artifact.description}</p>
+                    <ul>{artifact.evidence.map(item => <li key={item}>{item}</li>)}</ul>
+                    <p className="artifact-scope">{artifact.scope}</p>
+                    <div className="artifact-links">{artifact.links.map(link => <ExternalLink key={link.href} href={link.href}>{link.label}</ExternalLink>)}</div>
+                  </article>)}
+                </div>
+              </div>
+              <p className="case-browser-label">EMPLOYER WORK · ENGINEERING DETAILS</p>
+              <p className="case-source-note">Public summaries of my contributions at Staple AI. Customer data and employer source code remain private; each case identifies its delivery stage and my scope.</p>
               <div className="case-study-browser">
                 <div className="case-selector" role="group" aria-label="Choose an engineering case study">
                   {caseStudies.map((item, index) => (
@@ -516,6 +555,11 @@ export default function Portfolio() {
                     <div><h4>Engineering decisions</h4><ul>{selectedCase.approach.map(item => <li key={item}>{item}</li>)}</ul></div>
                     <div className="case-outcome"><h4>Outcome & scope</h4><p>{selectedCase.result}</p><p className="case-credit">{selectedCase.scope}</p></div>
                   </div>
+                  <details className="case-verification">
+                    <summary>Failure modes & verification <span aria-hidden="true">+</span></summary>
+                    <dl>{selectedCase.verification.map(item => <div key={item.risk}><dt>{item.risk}</dt><dd>{item.check}</dd></div>)}</dl>
+                  </details>
+                  <p className="case-delivery-note">{selectedCase.deliveryNote}</p>
                   <Tags items={selectedCase.stack} />
                   <a className="case-permalink" href={`#case-${selectedCase.id}`}>Link to this case study ↗</a>
                 </article>)}
@@ -663,7 +707,7 @@ export default function Portfolio() {
               {filteredProjects.length === 0 && <div className="empty-state"><p>No projects match these filters.</p><button type="button" onClick={() => { setProjectQuery(""); setProjectFilter("All projects"); document.getElementById("project-search")?.focus(); }}>Clear filters</button></div>}
               <div className="project-grid">
                 {filteredProjects.map((project) => (
-                  <article className="project-record" key={project.name}>
+                  <article className="project-record" key={project.name} id={projectId(project.name)}>
                     <div className="project-category">
                       <span>{project.type}</span>
                     </div>
@@ -702,6 +746,7 @@ export default function Portfolio() {
                         {project.linkLabel || "View project"}
                       </ExternalLink>
                     )}
+                    <a className="project-permalink" href={`#${projectId(project.name)}`} aria-label={`Link to ${project.name}`}>Link to this project ↗</a>
                   </article>
                 ))}
               </div>

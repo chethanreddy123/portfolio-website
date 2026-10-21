@@ -14,7 +14,9 @@ The portfolio connects engineering skills to specific contributions, delivery st
 
 Each view has a copy-link control and links to the underlying case studies. The full archive remains available from every view.
 
-The [career history](https://chethanreddy123.github.io/portfolio-website/#career) separates engineering, teaching and community work. The [project archive](https://chethanreddy123.github.io/portfolio-website/#projects) includes earlier applications and links to public source where available.
+The [career history](https://chethanreddy123.github.io/portfolio-website/#career) separates engineering, teaching and community work. The [project archive](https://chethanreddy123.github.io/portfolio-website/#projects) includes earlier applications and links to public source where available. Individual records have shareable anchors, including [eduAId](https://chethanreddy123.github.io/portfolio-website/#project-eduaid), [KaRmA](https://chethanreddy123.github.io/portfolio-website/#project-karma) and [hAIr](https://chethanreddy123.github.io/portfolio-website/#project-hair); opening one clears project filters before scrolling to the record.
+
+The [public-code section](https://chethanreddy123.github.io/portfolio-website/#public-code) points directly to runnable personal work, setup instructions, test code and CI. Employer case studies separately explain the engineering choices, failure modes, verification and delivery boundaries of private work.
 
 ## Evidence and contribution scope
 
@@ -69,6 +71,7 @@ In repository **Settings → Pages**, the publishing source must be **GitHub Act
 - `components/portfolio.tsx` renders the archive, section navigation, filters, search and expandable implementation notes.
 - `components/case-studies.ts` contains six detailed engineering cases and their contribution/delivery scope.
 - `components/role-pathways.ts` maps the three role views to supporting case studies and career evidence.
+- `components/public-artifacts.ts` holds the public-code cards and their source, setup and test links.
 - `public/` contains static images and `CV.pdf`, the current two-page general base résumé.
 - `public/company-logos/` contains verified original employer/institution marks; records without a verified mark use a plain company heading.
 - `next.config.js` defines static export and deployment paths.

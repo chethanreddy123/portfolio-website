@@ -9,6 +9,8 @@ export type CaseStudy = {
   approach: string[];
   result: string;
   scope: string;
+  verification: { risk: string; check: string }[];
+  deliveryNote: string;
   flow: { title: string; detail: string }[];
   stack: string[];
 };
@@ -29,6 +31,11 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Shipped complex-table extraction across three services and three regions, connecting applied model research to APIs, data contracts and production operations.",
     "scope": "My work: model benchmarking, Python APIs, table schemas, source-coordinate mapping and cross-service integration. The production launch was a team effort.",
+    "verification": [
+      { "risk": "A plausible cell mapped to the wrong source text", "check": "Keep source-page coordinates attached to extracted cells; use configurable matching thresholds and multilingual normalization during mapping." },
+      { "risk": "Mapping work delays the scan pipeline", "check": "Bound mapping with timeouts and expose model-routing controls so extraction behavior can be investigated independently of the surrounding services." }
+    ],
+    "deliveryNote": "Production integration across three services and three regions. Model benchmarking informed the implementation; no public accuracy or latency benchmark is claimed.",
     "flow": [
       {
         "title": "Extract",
@@ -71,6 +78,12 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Delivered an internal evaluation dashboard spanning eight providers and 25 models, making field quality, consistency and token cost visible in one workflow.",
     "scope": "My work: requirements, platform design, FastAPI backend and Next.js review interface through staging handoff. Template-retrieval evaluation and validation design were a separate research workstream.",
+    "verification": [
+      { "risk": "A strong example hides inconsistent field quality", "check": "Run shared inputs against editable ground truth, compare per-field similarity and F1, and repeat runs to inspect agreement." },
+      { "risk": "A cancelled evaluation loses useful work", "check": "Keep partial results when a run stops, with live progress and cost accounting available to the reviewer." },
+      { "risk": "Research results are mistaken for a deployed retrieval system", "check": "Keep the embedding and Milvus work identified as a separate research stream; the dashboard deliverable ended at staging handoff." }
+    ],
+    "deliveryNote": "Internal platform delivered through staging handoff. The eight-provider, 25-model scope describes integration coverage, not a measured quality win or production rollout.",
     "flow": [
       {
         "title": "Reference",
@@ -111,6 +124,12 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Merged API regression automation covering 70 endpoints, with workflow checks, contract validation and repeatable cleanup.",
     "scope": "My work: regression architecture, implementation, CI consolidation and reporting. Postman CLI remains part of execution.",
+    "verification": [
+      { "risk": "A successful request masks a broken workflow", "check": "Exercise scan → poll → download/export → cleanup, alongside endpoint schemas, error envelopes and negative cases." },
+      { "risk": "Incomplete work creates a false-green report", "check": "Correct false-green reporting and classify timeouts separately as skips; keep pass, fail and incomplete outcomes visible." },
+      { "risk": "Repeated test runs leave data behind", "check": "Provision regional QA resources, clean up each workflow and use a janitor for leftover test resources." }
+    ],
+    "deliveryNote": "Merged regression automation for 70 endpoints, covering contracts, complete workflows and cleanup. Postman CLI remains part of execution.",
     "flow": [
       {
         "title": "Provision",
@@ -151,6 +170,12 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Delivered the migration through a staging release with compatibility checks across 12 scan-message reference fixtures.",
     "scope": "My contribution: messaging design, implementation, scan-message compatibility and release preparation alongside another engineer, through staging validation against 12 reference fixtures.",
+    "verification": [
+      { "risk": "A retry repeats already completed work", "check": "Use message-ID deduplication and acknowledge only after storage; apply bounded retries and dead-letter routing." },
+      { "risk": "A transport change silently changes scan output", "check": "Compare generated scan messages against 12 reference fixtures from the existing service before the staging release." },
+      { "risk": "A failed job is hard to follow across workers", "check": "Include trace propagation and queue-delivery settings in the reviewer walkthrough and rollout checks." }
+    ],
+    "deliveryNote": "Collaborative migration delivered to staging. The checks establish compatibility for the reference fixtures; they do not establish exactly-once delivery or a production throughput result.",
     "flow": [
       {
         "title": "Queue",
@@ -192,6 +217,11 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Moved read traffic off primary databases across six or more services and added connected tracing for model-processing workflows.",
     "scope": "My work: service-level database routing, connection-pool configuration and observability integration.",
+    "verification": [
+      { "risk": "Reads and writes use an unintended connection", "check": "Make primary/replica engines and sessions explicit in dependencies and repositories; inspect read/write route logs." },
+      { "risk": "Worker boundaries break an incident trace", "check": "Propagate trace context through middleware and logging bridges, connecting model-processing logs, metrics and spans." }
+    ],
+    "deliveryNote": "Service-level routing and observability across six or more services. These changes demonstrate implementation scope; no measured database speedup or recovery-time reduction is published.",
     "flow": [
       {
         "title": "Route",
@@ -234,6 +264,12 @@ export const caseStudies: CaseStudy[] = [
     ],
     "result": "Restored stalled ingestion, recovered missing source files and delivered customer model migrations. Verified each result against the affected customer workflow.",
     "scope": "My contribution: discovery, implementation and verification across customer migrations, incident recovery and ongoing telemetry-based adoption support.",
+    "verification": [
+      { "risk": "The proposed fix addresses the symptom instead of the cause", "check": "Compare source documents, replay behavior and logs to distinguish model, data, configuration and code defects." },
+      { "risk": "A migration changes customer-visible output", "check": "Capture baseline snapshots, run dry-run checks, compare export parity and prepare rollback before staged changes." },
+      { "risk": "Recovery finishes without proving the workflow works", "check": "Use transactional repairs and post-recovery verification against the affected customer workflow." }
+    ],
+    "deliveryNote": "Scope spans multiple customer engagements. Telemetry dashboards and adoption agents support customer decisions; revenue or adoption uplift is not quantified here.",
     "flow": [
       {
         "title": "Discover",

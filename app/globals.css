@@ -2600,3 +2600,45 @@ main:focus {
 @media print {
   .role-copy, .role-copy-status { display: none; }
 }
+
+/* Public code and the verification detail behind employer case studies. */
+.public-artifacts { margin: 30px 0 38px; scroll-margin-top: 110px; }
+.public-artifacts-heading { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+.public-artifacts-heading h3 { margin-top: 9px; font-size: 24px; line-height: 1.35; letter-spacing: -.6px; max-width: 490px; }
+.public-artifact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 16px; }
+.public-artifact { padding: 25px; background: var(--surface); border: 1px solid var(--line); border-top: 2px solid var(--accent); }
+.artifact-kind { font: 10px/1.6 var(--font-mono); color: var(--accent); }
+.public-artifact h4 { margin-top: 12px; font-size: 23px; letter-spacing: -.5px; }
+.public-artifact > p:not(.artifact-kind) { margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.public-artifact ul { padding-left: 17px; margin-top: 16px; font-size: 12px; line-height: 1.85; }
+.public-artifact li + li { margin-top: 8px; }
+.public-artifact > .artifact-scope { padding-top: 15px; border-top: 1px solid var(--line); font-size: 11px !important; }
+.artifact-links { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 18px; }
+.artifact-links .inline-link { color: var(--accent); }
+.artifact-links svg { width: 14px; height: 14px; }
+.case-source-note { margin-top: 10px; max-width: 740px; font-size: 12px; line-height: 1.8; color: var(--muted); }
+.case-source-note + .case-study-browser { margin-top: 18px; }
+.case-verification { margin-top: 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.case-verification summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 0; cursor: pointer; font-size: 13px; font-weight: 600; list-style: none; }
+.case-verification summary::-webkit-details-marker { display: none; }
+.case-verification summary span { color: var(--accent); font-size: 20px; line-height: 1; transition: transform .2s; }
+.case-verification[open] summary span { transform: rotate(45deg); }
+.case-verification dl > div { display: grid; grid-template-columns: 1fr 1.6fr; gap: 22px; padding: 15px 0; border-top: 1px solid var(--line); font-size: 12px; line-height: 1.8; }
+.case-verification dt { font-weight: 600; }
+.case-verification dd { color: var(--muted); }
+.case-delivery-note { margin-top: 16px; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.project-record { scroll-margin-top: 110px; }
+.project-permalink { display: block; width: fit-content; margin-top: 12px; color: var(--muted); font-size: 11px; }
+.project-permalink:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) {
+  .public-artifact { padding: 22px 18px; }
+  .public-artifacts-heading h3 { font-size: 23px; }
+  .public-artifact ul, .artifact-scope, .case-source-note { font-size: 12px; }
+  .case-verification dl > div { grid-template-columns: 1fr; gap: 6px; }
+  .case-delivery-note { font-size: 12px; }
+}
+@media print {
+  .public-artifact-grid { display: block; }
+  .public-artifact { margin-bottom: 14px; break-inside: avoid; }
+  .project-permalink { display: none; }
+}
