@@ -715,7 +715,8 @@ export const skillGroups = [
       "Ground-truth scoring & repeatability",
       "Structured-output validation",
       "LLMOps: evaluation, routing & observability",
-      "Embeddings / vector-search evaluation"
+      "Embeddings / vector-search evaluation",
+      "Hermes Agent / OpenClaw setup & configuration"
     ],
     "evidence": [
       {
