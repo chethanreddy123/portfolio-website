@@ -14,7 +14,7 @@ export const rolePathways: RolePathway[] = [
     label: "FDE & customer engineering",
     title: "From the customer problem to a working system.",
     description:
-      "I connect discovery, solution architecture and hands-on implementation. My work includes integrations, migration plans, production investigation, customer enablement and telemetry for adoption decisions.",
+      "I connect discovery, enterprise AI architecture and hands-on implementation. My work includes integrations, migration plans, production investigation and customer telemetry, dashboards and agents for adoption decisions.",
     roles: "Forward deployed engineering · Solutions engineering · Customer engineering",
     firstCase: "enterprise",
     evidence: [
@@ -25,25 +25,25 @@ export const rolePathways: RolePathway[] = [
   },
   {
     id: "applied-ai",
-    label: "Applied AI & products",
-    title: "Models, APIs and interfaces that work together.",
+    label: "Applied & agentic AI",
+    title: "Agent workflows, retrieval and multimodal applications.",
     description:
-      "I build retrieval and model-integration workflows, evaluation tools and the interfaces around them. The evaluation platform combines a Next.js UI with FastAPI services for quality, consistency and cost comparisons.",
-    roles: "Applied AI engineering · AI product engineering · Full-stack AI applications",
+      "I build agentic workflows, retrieval applications and multimodal integrations. Examples include LangChain agents for teaching and SQL reporting, plus LLM/VLM evaluation tooling for quality, consistency and cost comparisons.",
+    roles: "Agentic AI engineering · Applied AI engineering · AI product engineering",
     firstCase: "evaluation",
     evidence: [
       { title: "Full-stack evaluation", measure: "25 models", detail: "Eight providers, editable ground truth and live progress; delivered through staging handoff.", href: "#case-evaluation" },
       { title: "Multimodal integration", measure: "3 services", detail: "OCR, vision-language models, structured schemas and source-coordinate mapping.", href: "#case-production-ai" },
-      { title: "Enterprise RAG", measure: "Python + retrieval", detail: "Diligence GPT backend work with Django, FastAPI, ArangoDB and LangChain at Dotnitron.", href: "#career-dotnitron" },
+      { title: "Enterprise RAG", measure: "Diligence GPT", detail: "Retrieval architecture and model integration at Dotnitron, using LangChain, ArangoDB and application services.", href: "#career-dotnitron" },
     ],
   },
   {
     id: "backend",
-    label: "Backend & platforms",
+    label: "AI platform engineering",
     title: "Services you can trace, test and recover.",
     description:
-      "I design Python services and data workflows with explicit contracts, retry behavior and observability. My work covers asynchronous processing, database routing, shared libraries, regression automation and controlled releases.",
-    roles: "Senior Python backend engineering · AI platform engineering · Backend product engineering",
+      "I build the services and operating foundations behind AI applications, with explicit contracts, recovery paths and observability. My work covers asynchronous processing, database routing, shared libraries, regression automation and controlled releases.",
+    roles: "AI platform engineering · Senior AI software engineering · AI application infrastructure",
     firstCase: "async",
     evidence: [
       { title: "Async processing", measure: "12 reference fixtures", detail: "Co-developed queue delivery, deduplication and recovery; compatibility checked in staging.", href: "#case-async" },

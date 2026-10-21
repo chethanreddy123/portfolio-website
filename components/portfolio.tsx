@@ -325,7 +325,7 @@ export default function Portfolio() {
             <span>
               Chethan Reddy
               <span className="identity-caption">
-                FDE · APPLIED AI · PRODUCT ENGINEERING
+                FDE · AGENTIC AI · ENTERPRISE SYSTEMS
               </span>
             </span>
           </a>
@@ -360,7 +360,7 @@ export default function Portfolio() {
               Forward Deployed Engineer, Level 2<span>at Staple AI</span>
             </p>
             <p className="intro-description">
-              I build applied AI products and the services and interfaces behind them.
+              I build agentic workflows, retrieval systems and multimodal AI applications.
               At Staple AI, I own engineering delivery for 20+ enterprise customers,
               from discovery and architecture to implementation, evaluation and production support.
             </p>
@@ -403,7 +403,7 @@ export default function Portfolio() {
             </div>
             <div>
               <dt>ENGINEERING FOCUS</dt>
-              <dd>Applied AI · Backend systems</dd>
+              <dd>Agentic AI · Enterprise AI systems</dd>
             </div>
             <div>
               <dt>EXPERIENCE</dt>
@@ -462,7 +462,7 @@ export default function Portfolio() {
                 description="The problem, my engineering decisions and the outcome."
               />
               <p className="work-introduction">Six examples from my work at Staple AI: model integration,
-                evaluation, reliable backends and enterprise delivery.</p>
+                evaluation, AI platforms and enterprise delivery.</p>
               <div className="role-overview" id="role-overview">
                 <div className="role-overview-heading">
                   <h3>Explore by role</h3>
@@ -714,8 +714,8 @@ export default function Portfolio() {
             >
               <SectionTitle
                 index="04"
-                title="Tools of the trade"
-                description="Engineering capabilities, with examples of where I have applied them."
+                title="AI capabilities, in practice"
+                description="Agentic workflows, multimodal applications and enterprise delivery, linked to the work behind them."
               />
               <div className="skills-grid">
                 {skillGroups.map((group, index) => (
@@ -950,8 +950,8 @@ export default function Portfolio() {
                 <p>
                   My 5+ years of experience span technical teaching, internships
                   and engineering roles. I started with teaching Python and working on
-                  machine-learning projects. It grew into backend engineering,
-                  full-stack products and enterprise AI delivery. Teaching still
+                  machine-learning projects. It grew into AI applications,
+                  agentic workflows and enterprise delivery. Teaching still
                   shapes how I work: make the problem understandable, examine
                   the assumptions, and explain the decision.
                 </p>
@@ -982,8 +982,8 @@ export default function Portfolio() {
                 what you’re building<span>.</span>
               </h2>
               <p className="contact-description">
-                For forward deployed engineering, applied AI products and senior
-                Python backend roles. Open to full-time remote roles and selected
+                For forward deployed engineering, agentic AI applications and
+                senior AI platform roles. Open to full-time remote roles and selected
                 contract projects with international teams.
               </p>
               <div className="contact-email-row">

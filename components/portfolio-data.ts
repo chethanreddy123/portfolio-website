@@ -58,25 +58,25 @@ export const profile = {
 
 export const currentWork = [
   {
-    "title": "Production AI, from research to release",
+    "title": "Multimodal AI, from research to release",
     "text": "Core engineer for complex-table extraction shipped across three services and three regions. Benchmarked OCR and vision-language approaches, built the model-service APIs, and connected model output back to source coordinates.",
     "tags": [
-      "Python APIs",
+      "Multimodal AI",
       "OCR + VLMs",
       "Model integration"
     ]
   },
   {
-    "title": "Evaluation before a model change",
+    "title": "Evaluation that guides model changes",
     "text": "Built an internal LLM/VLM evaluation dashboard spanning eight providers and 25 models, with field-level comparison, consistency checks and cost visibility. Built API regressions across 70 endpoints with contract checks, cleanup and region-aware CI.",
     "tags": [
-      "Model evaluation",
+      "LLM / VLM evaluation",
       "Regression testing",
       "GitHub Actions"
     ]
   },
   {
-    "title": "Backend systems that can be investigated",
+    "title": "AI platforms with observability and recovery",
     "text": "Co-developed an event-driven document-processing migration through a staging release, with queues, retries, dead-letter routing and idempotency. Added distributed tracing and separated database read/write traffic across six or more services.",
     "tags": [
       "RabbitMQ",
@@ -85,7 +85,7 @@ export const currentWork = [
     ]
   },
   {
-    "title": "Customer delivery and adoption",
+    "title": "Customer telemetry and adoption agents",
     "text": "Own requirements and engineering delivery for 20+ enterprise customers, from discovery and migration planning to verified recovery. Build dashboards and AI agents around customer telemetry to support adoption and identify usage-growth and upsell opportunities.",
     "tags": [
       "Enterprise delivery",
@@ -690,33 +690,36 @@ export const projects: Project[] = [
 
 export const skillGroups = [
   {
-    "title": "Forward deployed engineering",
+    "title": "Agentic AI & workflows",
     "items": [
-      "Technical discovery & scoping",
-      "Solution architecture",
-      "Enterprise integrations",
-      "Cross-functional technical leadership",
-      "Production debugging & recovery",
-      "Customer telemetry & adoption",
-      "Technical mentoring & customer enablement"
+      "LangChain agents: eduAId & KaRmA",
+      "Prompt design & retrieval context",
+      "Natural-language-to-SQL workflows",
+      "Customer adoption agents",
+      "Telemetry-driven AI dashboards",
+      "Hermes Agent / OpenClaw setup & configuration"
     ],
     "evidence": [
       {
-        "label": "Customer delivery & migrations",
+        "label": "eduAId & KaRmA projects",
+        "href": "#projects"
+      },
+      {
+        "label": "Customer adoption work",
         "href": "#case-enterprise"
       }
     ]
   },
   {
-    "title": "Applied AI & evaluation",
+    "title": "Multimodal AI & LLMOps",
     "items": [
-      "RAG & prompt engineering",
-      "Multimodal LLMs / VLMs",
+      "LLM / VLM integration & model routing",
+      "RAG & embedding evaluation",
       "Ground-truth scoring & repeatability",
       "Structured-output validation",
-      "LLMOps: evaluation, routing & observability",
-      "Embeddings / vector-search evaluation",
-      "Hermes Agent / OpenClaw setup & configuration"
+      "OCR, image intelligence & YOLO training",
+      "Model quality, consistency & cost analysis",
+      "Evaluation interfaces: Next.js / TypeScript"
     ],
     "evidence": [
       {
@@ -724,20 +727,43 @@ export const skillGroups = [
         "href": "#case-evaluation"
       },
       {
-        "label": "Production AI",
+        "label": "Multimodal production AI",
         "href": "#case-production-ai"
       }
     ]
   },
   {
-    "title": "Backend & distributed systems",
+    "title": "Enterprise AI & architecture",
     "items": [
-      "Python · FastAPI · Django",
-      "SQL / NoSQL data models",
-      "Idempotency, retries & dead-letter handling",
-      "RabbitMQ / Amazon MQ",
-      "Database read/write routing",
-      "OpenTelemetry"
+      "Technical discovery & scoping",
+      "Enterprise AI solution architecture",
+      "Service contracts & integrations",
+      "Customer telemetry & adoption",
+      "Cross-functional technical leadership",
+      "Mentoring & customer enablement",
+      "Release planning & technical handoffs"
+    ],
+    "evidence": [
+      {
+        "label": "Enterprise delivery",
+        "href": "#case-enterprise"
+      },
+      {
+        "label": "Diligence GPT architecture",
+        "href": "#career-dotnitron"
+      }
+    ]
+  },
+  {
+    "title": "AI platforms & reliability",
+    "items": [
+      "Async workflows, retries & idempotency",
+      "Messaging: RabbitMQ / Amazon MQ",
+      "SQL / NoSQL & database routing",
+      "Distributed tracing: OpenTelemetry",
+      "API regression & CI: GitHub Actions",
+      "AI services: Python / FastAPI / Django",
+      "Deployment: AWS / Kubernetes"
     ],
     "evidence": [
       {
@@ -747,26 +773,13 @@ export const skillGroups = [
       {
         "label": "Data & tracing",
         "href": "#case-infrastructure"
-      }
-    ]
-  },
-  {
-    "title": "Quality & product delivery",
-    "items": [
-      "API contracts & regression",
-      "CI / GitHub Actions",
-      "Model & data verification",
-      "TypeScript / Next.js",
-      "AWS / Kubernetes",
-      "Code review & release handoff"
-    ],
-    "evidence": [
+      },
       {
         "label": "API regression",
         "href": "#case-regression"
       },
       {
-        "label": "Next.js / FastAPI evaluation platform",
+        "label": "Evaluation platform",
         "href": "#case-evaluation"
       }
     ]
