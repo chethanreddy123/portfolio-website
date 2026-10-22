@@ -8,7 +8,7 @@ Personal portfolio for Chethan Reddy, Forward Deployed Engineer (FDE-2) at Stapl
 
 The portfolio connects engineering skills to specific contributions, delivery stages and implementation details.
 
-- **[Forward deployed engineering](https://chethanreddy123.github.io/portfolio-website/#role-fde):** customer discovery, migrations, production investigation and verification across 20+ enterprise customers.
+- **[Forward deployed engineering](https://chethanreddy123.github.io/portfolio-website/#role-fde):** customer discovery followed by hands-on solution design, implementation, testing and rollout across 20+ enterprise customers, including migrations and production recovery.
 - **[Applied & agentic AI](https://chethanreddy123.github.io/portfolio-website/#role-applied-ai):** LangChain agent workflows, multimodal model integration, LLM/VLM evaluation and enterprise RAG work.
 - **[AI platform engineering](https://chethanreddy123.github.io/portfolio-website/#role-backend):** service contracts, messaging, database routing, observability and testing for dependable AI applications.
 

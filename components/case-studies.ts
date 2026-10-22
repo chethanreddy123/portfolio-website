@@ -257,13 +257,13 @@ export const caseStudies: CaseStudy[] = [
     "question": "Customer requests, production failures and usage patterns need to become clear engineering work, with a way to verify the result and support adoption.",
     "decision": "Use reproducible cases, baseline snapshots and dry-run checks to scope production changes and verify recovery against the customer workflow.",
     "approach": [
-      "Own technical discovery, scoping and engineering delivery for 20+ enterprise customers, coordinating implementation and QA with product, engineering and customer-success teams.",
+      "Own technical discovery and engineering delivery for 20+ enterprise customers. Personally design, code, test and roll out customer features and integrations, collaborating with product, engineering and customer success on shared dependencies.",
       "Use document comparisons, replay tools and logs to separate model, data and code defects; build reproducible cases before choosing the fix.",
       "Build migration baselines, staged rollout plans, export-parity checks and rollback procedures. Lead incident recovery with transactional repairs, dry-run tools and post-recovery verification.",
       "Build AI dashboards and agents around customer telemetry to surface usage patterns, support adoption discussions and identify usage-growth and upsell opportunities."
     ],
     "result": "Restored stalled ingestion, recovered missing source files and delivered customer model migrations. Verified each result against the affected customer workflow.",
-    "scope": "My contribution: discovery, implementation and verification across customer migrations, incident recovery and ongoing telemetry-based adoption support.",
+    "scope": "I personally implement approximately 80% of the requirements for my customer portfolio, from solution design and code to testing, rollout and verification. This includes customer migrations, incident recovery and telemetry-based adoption support.",
     "verification": [
       { "risk": "The proposed fix addresses the symptom instead of the cause", "check": "Compare source documents, replay behavior and logs to distinguish model, data, configuration and code defects." },
       { "risk": "A migration changes customer-visible output", "check": "Capture baseline snapshots, run dry-run checks, compare export parity and prepare rollback before staged changes." },
@@ -276,8 +276,8 @@ export const caseStudies: CaseStudy[] = [
         "detail": "Requirements and customer context"
       },
       {
-        "title": "Deliver",
-        "detail": "Integrations, migrations and fixes"
+        "title": "Build",
+        "detail": "Personally code features, integrations and fixes"
       },
       {
         "title": "Verify",

@@ -86,7 +86,7 @@ export const currentWork = [
   },
   {
     "title": "Customer telemetry and adoption agents",
-    "text": "Own requirements and engineering delivery for 20+ enterprise customers, from discovery and migration planning to verified recovery. Build dashboards and AI agents around customer telemetry to support adoption and identify usage-growth and upsell opportunities.",
+    "text": "Personally design, code, test and deliver solutions for 20+ enterprise customers, from discovery and migrations to verified recovery. Build dashboards and AI agents around customer telemetry to support adoption and identify usage-growth and upsell opportunities.",
     "tags": [
       "Enterprise delivery",
       "Customer telemetry",
@@ -106,7 +106,7 @@ export const career: CareerEntry[] = [
     "group": "Engineering",
     "current": true,
     "context": "Enterprise AI · Product engineering · Customer delivery",
-    "summary": "Own technical scoping, engineering delivery and adoption support for 20+ enterprise customers, connecting their requirements with product changes, QA and production reliability.",
+    "summary": "Own customer requirements end to end for 20+ enterprise customers: personally design, implement, test and roll out AI features, integrations and production fixes, with ongoing adoption support.",
     "progression": [
       {
         "title": "Forward Deployed Engineer · FDE-2",
@@ -122,7 +122,7 @@ export const career: CareerEntry[] = [
       }
     ],
     "details": [
-      "As an FDE, translate discovery findings into implementation plans with product, engineering, customer success and QA. Write reproducible cases, design fixes and work through migration and release verification.",
+      "As an FDE, turn discovery findings into working implementations: write code, build integrations and migration tools, test the changes, handle rollout and verify customer workflows. Collaborate with product, engineering, customer success and QA on shared dependencies.",
       "Build AI dashboards and agents around customer telemetry to surface usage patterns, support adoption discussions and identify upsell opportunities.",
       "As a core product engineer, took complex-table extraction from OCR/VLM research to production across three services and three regions, building model APIs, templates and coordinate mapping.",
       "Built an eight-provider, 25-model evaluation dashboard and a regression platform covering 70 gateway API endpoints. Moved monitor scheduling to GitHub Actions while retaining Postman CLI for execution.",
@@ -545,11 +545,11 @@ export const projects: Project[] = [
     "name": "Enterprise migrations & recovery",
     "category": "Backend & platforms",
     "type": "Staple AI · Forward deployed engineering",
-    "summary": "Customer requirements, model migrations and production investigation across a portfolio of 20+ enterprise customers.",
+    "summary": "Hands-on implementation of customer requirements, model migrations and production fixes across a portfolio of 20+ enterprise customers.",
     "details": [
       "Build baseline snapshots, dry-run migration tools, bounded writes, rollback procedures and export-parity checks.",
       "Use source documents, replay tools, logs and data reconciliation to distinguish model behavior, configuration and code defects.",
-      "Own customer communication and verification through implementation, QA and recovery."
+      "Personally implement and test customer changes, handle rollout and recovery, and own customer communication and workflow verification."
     ],
     "stack": [
       "Customer engineering",

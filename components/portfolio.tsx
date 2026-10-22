@@ -383,8 +383,9 @@ export default function Portfolio() {
             </p>
             <p className="intro-description">
               I build agentic workflows, retrieval systems and multimodal AI applications.
-              At Staple AI, I own engineering delivery for 20+ enterprise customers,
-              from discovery and architecture to implementation, evaluation and production support.
+              At Staple AI, I own engineering delivery for 20+ enterprise customers.
+              I personally implement approximately 80% of the requirements for my customer portfolio,
+              from architecture and code to testing, rollout and production support.
             </p>
             <p className="intro-availability">Based in India · Remote opportunities with global teams</p>
             <div className="intro-links">

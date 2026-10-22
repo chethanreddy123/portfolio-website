@@ -14,11 +14,11 @@ export const rolePathways: RolePathway[] = [
     label: "FDE & customer engineering",
     title: "From the customer problem to a working system.",
     description:
-      "I connect discovery, enterprise AI architecture and hands-on implementation. My work includes integrations, migration plans, production investigation and customer telemetry, dashboards and agents for adoption decisions.",
+      "I take customer requirements through discovery, solution design, code, testing and rollout. I personally build features, integrations, migration tools and production fixes, alongside customer telemetry, dashboards and agents for adoption decisions.",
     roles: "Forward deployed engineering · Solutions engineering · Customer engineering",
     firstCase: "enterprise",
     evidence: [
-      { title: "Enterprise delivery", measure: "20+ customers", detail: "Technical ownership across requirements, implementation and ongoing support.", href: "#case-enterprise" },
+      { title: "Enterprise delivery", measure: "20+ customers", detail: "Personally design, implement, test and roll out customer requirements, with ongoing production ownership.", href: "#case-enterprise" },
       { title: "Production AI integration", measure: "3 regions", detail: "Model-service APIs and cross-service delivery for complex-table extraction.", href: "#case-production-ai" },
       { title: "Release verification", measure: "70 endpoints", detail: "API contracts, negative cases and complete workflow checks.", href: "#case-regression" },
     ],
